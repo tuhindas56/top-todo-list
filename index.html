@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en" class="text-base sm:text-lg lg:text-xl">
+<html lang="en" class="text-base sm:text-lg">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -12,9 +13,12 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body class="h-screen md:flex">
-    <aside id="sidebar" class="flex flex-col justify-around md:block md:h-full md:w-60 md:border">
-      <div class="flex items-center p-10">
+  <body class="h-screen overflow-hidden md:flex">
+    <aside
+      id="sidebar"
+      class="over sticky flex flex-col justify-around overflow-x-auto md:block md:max-h-screen md:w-60 md:border"
+    >
+      <div class="flex items-center px-10 py-6">
         <i class="fa-regular fa-circle-check mr-4 text-5xl text-blue-400"></i>
         <span class="border-b text-xl">
           Todo
@@ -23,36 +27,48 @@
       </div>
 
       <div class="flex flex-row-reverse flex-wrap justify-end md:block">
-        <ul id="task_categories" class="px-10 py-6 md:border-b">
+        <ul id="task_categories" class="px-8 py-6 md:border-b">
           <p class="mb-6 text-2xl">Tasks</p>
 
-          <li class="mb-2">
-            <i class="fa-solid fa-star mr-1 text-yellow-400"></i>
-            <button id="btn_today">Today</button>
+          <li class="mb-2 bg-slate-100">
+            <button
+              id="btn_today"
+              class="w-full p-2 text-left hover:bg-slate-100"
+              data-selected="true"
+            >
+              <i class="fa-solid fa-star mr-1 text-yellow-400"></i>Today
+            </button>
           </li>
           <li class="mb-2">
-            <i class="fa-regular fa-calendar-days mr-2 text-rose-400"></i>
-            <button id="btn_upcoming">Upcoming</button>
+            <button
+              id="btn_upcoming"
+              class="w-full p-2 text-left hover:bg-slate-100"
+              data-selected="false"
+            >
+              <i class="fa-regular fa-calendar-days mr-2 text-rose-400"></i>Upcoming
+            </button>
           </li>
           <li class="mb-2">
-            <i class="fa-solid fa-check mr-2 text-green-400"></i>
-            <button id="btn_completed">Completed</button>
+            <button
+              id="btn_completed"
+              class="w-full p-2 text-left hover:bg-slate-100"
+              data-selected="false"
+            >
+              <i class="fa-solid fa-check mr-2 text-green-400"></i>Completed
+            </button>
           </li>
         </ul>
 
-        <ul id="lists" class="px-10 py-6">
+        <ul id="lists" class="px-8 py-6">
           <p class="mb-6 text-2xl">Lists</p>
-          <li class="mb-2">
-            <i class="fa-solid fa-briefcase mr-2 text-zinc-400"></i>
-            <button id="btn_work">Work</button>
+          <li class="mb-2 bg-slate-100 hover:bg-slate-100">
+            <button id="btn_work" class="w-full p-2 text-left">Work</button>
           </li>
-          <li class="mb-2">
-            <i class="fa-solid fa-volleyball mr-2 text-indigo-400"></i>
-            <button id="btn_hobbies">Hobbies</button>
+          <li class="mb-2 hover:bg-slate-100">
+            <button id="btn_hobbies" class="w-full p-2 text-left">House</button>
           </li>
-          <li class="mb-2">
-            <i class="fa-solid fa-people-group -ml-2 mr-2 text-xl text-red-400"></i>
-            <button id="btn_family">Family</button>
+          <li class="mb-2 hover:bg-slate-100">
+            <button id="btn_family" class="w-full p-2 text-left">Family</button>
           </li>
         </ul>
       </div>
@@ -68,6 +84,7 @@
         </a>
       </p>
     </aside>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
