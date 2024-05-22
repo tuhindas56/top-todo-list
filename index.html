@@ -1,13 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="text-base sm:text-lg lg:text-xl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-    <script type="module" crossorigin src="/top-todo-list/assets/index-CpukyEyT.js"></script>
-    <link rel="stylesheet" crossorigin href="/top-todo-list/assets/index-obmXIL9K.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script type="module" crossorigin src="/top-todo-list/assets/index-lnX1zMjr.js"></script>
+    <link rel="stylesheet" crossorigin href="/top-todo-list/assets/index-BT04tsxB.css">
   </head>
-  <body class="bg-slate-900">
-    <h1 class="text-4xl text-slate-300">Hello World</h1>
+  <body class="h-screen md:flex">
+    <aside id="sidebar" class="flex flex-col justify-around md:block md:h-full md:w-60 md:border">
+      <div class="flex items-center p-10">
+        <i class="fa-regular fa-circle-check mr-4 text-5xl text-blue-400"></i>
+        <span class="border-b text-xl">
+          Todo
+          <span class="block border-b-2 border-b-blue-400 text-3xl">List</span>
+        </span>
+      </div>
+
+      <div class="flex flex-row-reverse flex-wrap justify-end md:block">
+        <ul id="task_categories" class="px-10 py-6 md:border-b">
+          <p class="mb-6 text-2xl">Tasks</p>
+
+          <li class="mb-2">
+            <i class="fa-solid fa-star mr-1 text-yellow-400"></i>
+            <button id="btn_today">Today</button>
+          </li>
+          <li class="mb-2">
+            <i class="fa-regular fa-calendar-days mr-2 text-rose-400"></i>
+            <button id="btn_upcoming">Upcoming</button>
+          </li>
+          <li class="mb-2">
+            <i class="fa-solid fa-check mr-2 text-green-400"></i>
+            <button id="btn_completed">Completed</button>
+          </li>
+        </ul>
+
+        <ul id="lists" class="px-10 py-6">
+          <p class="mb-6 text-2xl">Lists</p>
+          <li class="mb-2">
+            <i class="fa-solid fa-briefcase mr-2 text-zinc-400"></i>
+            <button id="btn_work">Work</button>
+          </li>
+          <li class="mb-2">
+            <i class="fa-solid fa-volleyball mr-2 text-indigo-400"></i>
+            <button id="btn_hobbies">Hobbies</button>
+          </li>
+          <li class="mb-2">
+            <i class="fa-solid fa-people-group -ml-2 mr-2 text-xl text-red-400"></i>
+            <button id="btn_family">Family</button>
+          </li>
+        </ul>
+      </div>
+      <p class="border-b px-10 pb-6 text-right text-sm md:border-0 md:p-10 md:text-left">
+        built by
+        <a
+          href="https://github.com/tuhindas56/top-todo-list"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="und text-blue-400"
+        >
+          <span class="block">Tuhin Das</span>
+        </a>
+      </p>
+    </aside>
   </body>
 </html>
