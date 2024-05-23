@@ -25,7 +25,7 @@
       </div>
 
       <div class="flex flex-row-reverse flex-wrap justify-around md:block">
-        <ul id="task_categories" class="px-8 py-6 md:border-b">
+        <!-- <ul id="task_categories" class="px-8 py-6 md:border-b">
           <p class="mb-6 px-2 text-2xl">Tasks</p>
 
           <li class="mb-2 bg-slate-100">
@@ -68,21 +68,21 @@
               All
             </button>
           </li>
-        </ul>
+        </ul> -->
 
         <div class="px-8 py-6">
           <ul id="lists">
             <p class="mb-6 px-2 text-2xl">Lists</p>
-            <li class="mb-2 hover:bg-slate-100">
-              <button id="btn_work" class="w-full p-2 text-left">Work</button>
-            </li>
+
             <li class="mb-2 bg-slate-100 hover:bg-slate-100">
-              <button id="btn_hobbies" class="w-full p-2 text-left">House</button>
+              <button id="btn_house" class="w-full p-2 text-left">House</button>
             </li>
             <li class="mb-2 hover:bg-slate-100">
               <button id="btn_family" class="w-full p-2 text-left">Family</button>
             </li>
-            <li></li>
+            <li class="mb-2 hover:bg-slate-100">
+              <button id="btn_work" class="w-full p-2 text-left">Work</button>
+            </li>
           </ul>
           <button
             id="btn_add_list"
@@ -257,10 +257,16 @@
           List name must be between 4 and 20 characters long
         </p>
         <button
-          class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          class="mr-2 mt-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
           id="btn_create_list"
         >
           Create
+        </button>
+        <button
+          class="w-full rounded-lg bg-slate-400 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-slate-500 focus:outline-none focus:ring-4 focus:ring-slate-300 sm:w-auto"
+          type="reset"
+        >
+          Reset
         </button>
       </form>
     </dialog>
