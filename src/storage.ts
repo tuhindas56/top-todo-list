@@ -1,12 +1,12 @@
 import Task from "./task"
-export function storeList(list: { name: string; tasks: {}[] }) {
-  localStorage.setItem(`${list.name}`, JSON.stringify(list))
+export function storeItem(list: { tasks: {}[] }, name: string) {
+  localStorage.setItem(`${name}`, JSON.stringify(list))
 }
 export function clearStorage() {
   localStorage.clear()
 }
-export function retrieveList(listName: string) {
-  const itemToParse = localStorage.getItem(listName)
+export function retrieveItem(listIndex: number) {
+  const itemToParse = localStorage.getItem(`${listIndex}`)
   if (itemToParse) {
     const parsed = JSON.parse(itemToParse)
     parsed.tasks.forEach((task: Task) => {
@@ -17,6 +17,6 @@ export function retrieveList(listName: string) {
   }
   return
 }
-export function removeList(name: string) {
-  localStorage.removeItem(name)
+export function removeItem(listIndex: number) {
+  localStorage.removeItem(`${listIndex}`)
 }
