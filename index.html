@@ -12,8 +12,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script type="module" crossorigin src="/top-todo-list/assets/index-DlAbBmC0.js"></script>
-    <link rel="stylesheet" crossorigin href="/top-todo-list/assets/index-CrPgw6tI.css">
+    <script type="module" crossorigin src="/top-todo-list/assets/index-BwvG-J1Y.js"></script>
+    <link rel="stylesheet" crossorigin href="/top-todo-list/assets/index-vplFJkjZ.css">
   </head>
   <body class="h-screen md:flex md:overflow-hidden">
     <!-- Sidebar -->
@@ -111,11 +111,16 @@
 
     <!-- Main content -->
     <main class="relative flex-1 overflow-x-auto">
-      <div class="flex items-start bg-white px-6 pt-14">
-        <span id="list_title" class="mr-4 text-4xl font-medium">House</span>
-        <button id="btn_edit_list_name">
-          <i class="fa-solid fa-pencil text-md text-slate-500"></i>
-        </button>
+      <div class="flex items-end bg-white px-6 pt-14">
+        <span id="list_title" class="mr-4 text-6xl font-medium">House</span>
+        <div class="flex w-max flex-col">
+          <button id="btn_edit_list_name" class="">
+            <i class="fa-solid fa-pencil text-md text-slate-500 hover:text-blue-400"></i>
+          </button>
+          <button id="btn_del_list">
+            <i class="fa-solid fa-trash text-md text-slate-500 hover:text-red-500"></i>
+          </button>
+        </div>
       </div>
       <button
         id="btn_add_task"
@@ -126,8 +131,10 @@
       </button>
 
       <hr />
+
+      <!-- Tasklist -->
       <div class="min-w-80 p-6">
-        <ol class="relative border-s border-gray-200">
+        <ol class="relative border-s border-gray-200" id="task_container">
           <li class="mb-10 ms-4" data-task="0">
             <div
               class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200"
@@ -166,7 +173,7 @@
                 <div
                   class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full"
                 ></div>
-                <span class="ms-3 text-sm font-medium text-gray-900"> Complete </span>
+                <span class="ms-3 select-none text-sm font-medium text-gray-900"> Complete </span>
               </label>
             </div>
           </li>
@@ -215,7 +222,7 @@
                 <div
                   class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full"
                 ></div>
-                <span class="ms-3 text-sm font-medium text-gray-900">Complete</span>
+                <span class="ms-3 select-none text-sm font-medium text-gray-900">Complete</span>
               </label>
             </div>
           </li>
@@ -225,15 +232,15 @@
 
     <!-- Form dialog -->
     <dialog
-      id="task_dialog"
+      id="list_form"
       class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm"
     >
-      <form class="hidden min-w-96 p-8" id="list_form">
+      <form class="min-w-96 p-8">
         <div class="mb-4 flex items-center justify-between">
           <p class="text-2xl font-medium">Create a Task List</p>
           <button
             type="button"
-            class="close_dialog fa-solid fa-xmark cursor-pointer focus:outline-none"
+            class="btn_close fa-solid fa-xmark cursor-pointer focus:outline-none"
           ></button>
         </div>
         <label for="form_list_name" class="mb-2 block text-sm font-medium text-gray-900">
@@ -246,55 +253,63 @@
           placeholder="Work Projects"
           required
           minlength="4"
+          maxlength="20"
         />
         <p class="mb-4 hidden text-xs text-red-500" id="list_error">
-          Minimum 4 characters required!
+          List name must be between 4 and 20 characters long
         </p>
         <button
           class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
-          id="create_list_btn"
+          id="btn_create_list"
         >
           Create
         </button>
       </form>
+    </dialog>
 
-      <form class="min-w-96 p-8" id="task_form">
+    <dialog
+      id="task_form"
+      class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm"
+    >
+      <form class="min-w-96 p-8">
         <div class="mb-6 flex items-center justify-between">
           <p id="task_form_heading" class="text-2xl font-medium">Add/Modify Tasks</p>
           <button
             type="button"
-            class="close_dialog fa-solid fa-xmark cursor-pointer focus:outline-none"
+            class="btn_close fa-solid fa-xmark cursor-pointer focus:outline-none"
           ></button>
         </div>
 
-        <label for="task_form_title" class="mb-2 block text-sm font-medium text-gray-900">
+        <label for="form_task_title" class="mb-2 block text-sm font-medium text-gray-900">
           Title
         </label>
         <input
           type="text"
-          id="task_form_title"
+          id="form_task_title"
           class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           placeholder="Project Presentation"
+          minlength="4"
+          maxlength="20"
           required
         />
 
-        <label for="task_form_desc" class="mb-2 block text-sm font-medium text-gray-900">
+        <label for="form_task_desc" class="mb-2 block text-sm font-medium text-gray-900">
           Description
         </label>
         <textarea
-          id="task_form_desc"
+          id="form_task_desc"
           class="mb-6 block w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           placeholder="Prepare slides and notes for upcoming project presentation, including key findings, recommendations, and visuals. Practice delivery for smooth presentation."
           required
           rows="5"
         ></textarea>
 
-        <label for="task_form_due" class="mb-2 block text-sm font-medium text-gray-900">
+        <label for="form_task_due" class="mb-2 block text-sm font-medium text-gray-900">
           Due Date
         </label>
         <input
           type="date"
-          id="task_form_due"
+          id="form_task_due"
           class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           required
         />
@@ -303,9 +318,15 @@
           <legend class="mb-2 font-medium">Priority</legend>
           <div class="grid w-[20rem] grid-cols-3 rounded-md bg-slate-100">
             <div>
-              <input type="radio" name="option" id="priority_low" value="2" class="peer hidden" />
+              <input
+                type="radio"
+                name="option"
+                id="task_priority_low"
+                value="2"
+                class="peer hidden"
+              />
               <label
-                for="priority_low"
+                for="task_priority_low"
                 class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-slate-500 peer-checked:font-bold peer-checked:text-white"
               >
                 Low
@@ -315,22 +336,28 @@
               <input
                 type="radio"
                 name="option"
-                id="priority_normal"
+                id="task_priority_normal"
                 value="1"
                 class="peer hidden"
                 checked
               />
               <label
-                for="priority_normal"
+                for="task_priority_normal"
                 class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white"
               >
                 Normal
               </label>
             </div>
             <div>
-              <input type="radio" name="option" id="priority_high" value="0" class="peer hidden" />
+              <input
+                type="radio"
+                name="option"
+                id="task_priority_high"
+                value="0"
+                class="peer hidden"
+              />
               <label
-                for="priority_high"
+                for="task_priority_high"
                 class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-red-500 peer-checked:font-bold peer-checked:text-white"
               >
                 High
@@ -341,23 +368,22 @@
 
         <div class="mb-6 flex items-center">
           <input
-            id="task_form_complete"
+            id="form_task_complete"
             type="checkbox"
             class="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:outline-none focus:ring-blue-300"
           />
-          <label for="task_form_complete" class="ms-2 text-sm font-medium text-gray-900">
+          <label for="form_task_complete" class="ms-2 text-sm font-medium text-gray-900">
             Task completed
           </label>
         </div>
 
         <button
           class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
-          id="create_task_btn"
+          id="brn_create_task"
         >
           Create
         </button>
       </form>
     </dialog>
-
   </body>
 </html>
