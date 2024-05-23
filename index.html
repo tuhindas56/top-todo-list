@@ -12,14 +12,12 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script type="module" crossorigin src="/top-todo-list/assets/index-CGCMYuG-.js"></script>
-    <link rel="stylesheet" crossorigin href="/top-todo-list/assets/index-Df8UabsU.css">
+    <script type="module" crossorigin src="/top-todo-list/assets/index-DlAbBmC0.js"></script>
+    <link rel="stylesheet" crossorigin href="/top-todo-list/assets/index-CrPgw6tI.css">
   </head>
-  <body class="h-screen overflow-hidden md:flex">
-    <aside
-      id="sidebar"
-      class="over sticky flex flex-col justify-around overflow-x-auto md:block md:max-h-screen md:w-60 md:border"
-    >
+  <body class="h-screen md:flex md:overflow-hidden">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="overflow-x-auto md:max-h-screen md:min-w-60 md:border">
       <div class="flex items-center px-10 py-6">
         <i class="fa-regular fa-circle-check mr-4 text-5xl text-blue-400"></i>
         <span class="border-b text-xl">
@@ -28,9 +26,9 @@
         </span>
       </div>
 
-      <div class="flex flex-row-reverse flex-wrap justify-end md:block">
+      <div class="flex flex-row-reverse flex-wrap justify-around md:block">
         <ul id="task_categories" class="px-8 py-6 md:border-b">
-          <p class="mb-6 text-2xl">Tasks</p>
+          <p class="mb-6 px-2 text-2xl">Tasks</p>
 
           <li class="mb-2 bg-slate-100">
             <button
@@ -38,7 +36,8 @@
               class="w-full p-2 text-left hover:bg-slate-100"
               data-selected="true"
             >
-              <i class="fa-solid fa-star mr-1 text-yellow-400"></i>Today
+              <i class="fa-solid fa-star mr-1 text-yellow-400"></i>
+              Today
             </button>
           </li>
           <li class="mb-2">
@@ -47,7 +46,8 @@
               class="w-full p-2 text-left hover:bg-slate-100"
               data-selected="false"
             >
-              <i class="fa-regular fa-calendar-days mr-2 text-rose-400"></i>Upcoming
+              <i class="fa-regular fa-calendar-days mr-2 text-rose-400"></i>
+              Upcoming
             </button>
           </li>
           <li class="mb-2">
@@ -56,24 +56,46 @@
               class="w-full p-2 text-left hover:bg-slate-100"
               data-selected="false"
             >
-              <i class="fa-solid fa-check mr-2 text-green-400"></i>Completed
+              <i class="fa-solid fa-check mr-2 text-green-400"></i>
+              Completed
+            </button>
+          </li>
+          <li class="mb-2">
+            <button
+              id="btn_all"
+              class="w-full p-2 text-left hover:bg-slate-100"
+              data-selected="false"
+            >
+              <i class="fa-solid fa-list-check mr-2 text-gray-600"></i>
+              All
             </button>
           </li>
         </ul>
 
-        <ul id="lists" class="px-8 py-6">
-          <p class="mb-6 text-2xl">Lists</p>
-          <li class="mb-2 bg-slate-100 hover:bg-slate-100">
-            <button id="btn_work" class="w-full p-2 text-left">Work</button>
-          </li>
-          <li class="mb-2 hover:bg-slate-100">
-            <button id="btn_hobbies" class="w-full p-2 text-left">House</button>
-          </li>
-          <li class="mb-2 hover:bg-slate-100">
-            <button id="btn_family" class="w-full p-2 text-left">Family</button>
-          </li>
-        </ul>
+        <div class="px-8 py-6">
+          <ul id="lists">
+            <p class="mb-6 px-2 text-2xl">Lists</p>
+            <li class="mb-2 hover:bg-slate-100">
+              <button id="btn_work" class="w-full p-2 text-left">Work</button>
+            </li>
+            <li class="mb-2 bg-slate-100 hover:bg-slate-100">
+              <button id="btn_hobbies" class="w-full p-2 text-left">House</button>
+            </li>
+            <li class="mb-2 hover:bg-slate-100">
+              <button id="btn_family" class="w-full p-2 text-left">Family</button>
+            </li>
+            <li></li>
+          </ul>
+          <button
+            id="btn_add_list"
+            type="button"
+            class="w-max rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200 md:mx-8 md:mb-0"
+          >
+            Add list
+          </button>
+        </div>
       </div>
+
       <p class="border-b px-10 pb-6 text-right text-sm md:border-0 md:p-10 md:text-left">
         built by
         <a
@@ -86,6 +108,256 @@
         </a>
       </p>
     </aside>
+
+    <!-- Main content -->
+    <main class="relative flex-1 overflow-x-auto">
+      <div class="flex items-start bg-white px-6 pt-14">
+        <span id="list_title" class="mr-4 text-4xl font-medium">House</span>
+        <button id="btn_edit_list_name">
+          <i class="fa-solid fa-pencil text-md text-slate-500"></i>
+        </button>
+      </div>
+      <button
+        id="btn_add_task"
+        type="button"
+        class="m-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200"
+      >
+        Add task
+      </button>
+
+      <hr />
+      <div class="min-w-80 p-6">
+        <ol class="relative border-s border-gray-200">
+          <li class="mb-10 ms-4" data-task="0">
+            <div
+              class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200"
+            ></div>
+            <time class="mb-1 text-sm font-normal leading-none text-gray-400" data-date="28/02/24">
+              28 February 2024
+            </time>
+            <p class="task_title text-lg font-semibold text-gray-900">
+              A task that needs to get done
+            </p>
+            <p class="task_desc mb-4 text-base font-normal text-gray-500">
+              Gotta do this and that and that..
+            </p>
+            <span class="priority">
+              <i class="fa-regular fa-flag mr-2 text-blue-500"></i>
+              Normal
+            </span>
+
+            <div class="flex items-center gap-6">
+              <button
+                id="btn_edit_task"
+                type="button"
+                class="my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200"
+              >
+                Edit
+              </button>
+              <button
+                id="btn_delete_task"
+                type="button"
+                class="my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:outline-none active:bg-gray-200"
+              >
+                Delete
+              </button>
+              <label class="inline-flex cursor-pointer items-center">
+                <input type="checkbox" value="completed" class="peer sr-only" />
+                <div
+                  class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full"
+                ></div>
+                <span class="ms-3 text-sm font-medium text-gray-900"> Complete </span>
+              </label>
+            </div>
+          </li>
+
+          <li class="mb-10 ms-4" data-task="1">
+            <div
+              class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200"
+            ></div>
+
+            <time class="mb-1 text-sm font-normal leading-none text-gray-400" data-date="02/03/24">
+              02 March 2024
+            </time>
+
+            <p class="task_title text-lg font-semibold text-gray-900">
+              Another task that needs to get done ASAP
+            </p>
+
+            <p class="task_desc mb-4 text-base font-normal text-gray-500">
+              I HAVE TO GET THIS DONE OR I'M COOKED AAAAAAA!
+            </p>
+
+            <span class="priority">
+              <i class="fa-regular fa-flag mr-2 text-red-500"></i>
+              High
+            </span>
+
+            <div class="flex items-center gap-6">
+              <button
+                id="btn_edit_task"
+                type="button"
+                class="my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200"
+              >
+                Edit
+              </button>
+
+              <button
+                id="btn_delete_task"
+                type="button"
+                class="my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:outline-none active:bg-gray-200"
+              >
+                Delete
+              </button>
+
+              <label class="inline-flex cursor-pointer items-center">
+                <input type="checkbox" value="completed" class="peer sr-only" />
+                <div
+                  class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full"
+                ></div>
+                <span class="ms-3 text-sm font-medium text-gray-900">Complete</span>
+              </label>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </main>
+
+    <!-- Form dialog -->
+    <dialog
+      id="task_dialog"
+      class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm"
+    >
+      <form class="hidden min-w-96 p-8" id="list_form">
+        <div class="mb-4 flex items-center justify-between">
+          <p class="text-2xl font-medium">Create a Task List</p>
+          <button
+            type="button"
+            class="close_dialog fa-solid fa-xmark cursor-pointer focus:outline-none"
+          ></button>
+        </div>
+        <label for="form_list_name" class="mb-2 block text-sm font-medium text-gray-900">
+          List Name
+        </label>
+        <input
+          type="text"
+          id="form_list_name"
+          class="mb-4 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Work Projects"
+          required
+          minlength="4"
+        />
+        <p class="mb-4 hidden text-xs text-red-500" id="list_error">
+          Minimum 4 characters required!
+        </p>
+        <button
+          class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          id="create_list_btn"
+        >
+          Create
+        </button>
+      </form>
+
+      <form class="min-w-96 p-8" id="task_form">
+        <div class="mb-6 flex items-center justify-between">
+          <p id="task_form_heading" class="text-2xl font-medium">Add/Modify Tasks</p>
+          <button
+            type="button"
+            class="close_dialog fa-solid fa-xmark cursor-pointer focus:outline-none"
+          ></button>
+        </div>
+
+        <label for="task_form_title" class="mb-2 block text-sm font-medium text-gray-900">
+          Title
+        </label>
+        <input
+          type="text"
+          id="task_form_title"
+          class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Project Presentation"
+          required
+        />
+
+        <label for="task_form_desc" class="mb-2 block text-sm font-medium text-gray-900">
+          Description
+        </label>
+        <textarea
+          id="task_form_desc"
+          class="mb-6 block w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          placeholder="Prepare slides and notes for upcoming project presentation, including key findings, recommendations, and visuals. Practice delivery for smooth presentation."
+          required
+          rows="5"
+        ></textarea>
+
+        <label for="task_form_due" class="mb-2 block text-sm font-medium text-gray-900">
+          Due Date
+        </label>
+        <input
+          type="date"
+          id="task_form_due"
+          class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+          required
+        />
+
+        <fieldset class="mb-4">
+          <legend class="mb-2 font-medium">Priority</legend>
+          <div class="grid w-[20rem] grid-cols-3 rounded-md bg-slate-100">
+            <div>
+              <input type="radio" name="option" id="priority_low" value="2" class="peer hidden" />
+              <label
+                for="priority_low"
+                class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-slate-500 peer-checked:font-bold peer-checked:text-white"
+              >
+                Low
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="option"
+                id="priority_normal"
+                value="1"
+                class="peer hidden"
+                checked
+              />
+              <label
+                for="priority_normal"
+                class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-blue-500 peer-checked:font-bold peer-checked:text-white"
+              >
+                Normal
+              </label>
+            </div>
+            <div>
+              <input type="radio" name="option" id="priority_high" value="0" class="peer hidden" />
+              <label
+                for="priority_high"
+                class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-red-500 peer-checked:font-bold peer-checked:text-white"
+              >
+                High
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="mb-6 flex items-center">
+          <input
+            id="task_form_complete"
+            type="checkbox"
+            class="focus:ring-3 h-4 w-4 rounded border border-gray-300 bg-gray-50 focus:outline-none focus:ring-blue-300"
+          />
+          <label for="task_form_complete" class="ms-2 text-sm font-medium text-gray-900">
+            Task completed
+          </label>
+        </div>
+
+        <button
+          class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          id="create_task_btn"
+        >
+          Create
+        </button>
+      </form>
+    </dialog>
 
   </body>
 </html>
