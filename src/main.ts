@@ -1,49 +1,21 @@
 import "./style.css"
-import { createList } from "./list"
-import { storeItem } from "./storage"
-import { closeDialog, openDialog } from "./domUtils"
 
-let listIndex = 0
+import { storeList } from "./storage"
+import * as domUtils from "./domUtils"
+
 const lists = document.querySelector("#lists") as HTMLUListElement
-
-function createListElement() {
-  const newListElement = document.createElement("li") as HTMLLIElement
-  newListElement.dataset.index = `${listIndex}`
-  return newListElement
-}
-
-function createButtonElement(name: string) {
-  const newButtonElement = document.createElement("button") as HTMLButtonElement
-  newButtonElement.textContent = name
-  return newButtonElement
-}
-
-function assignClasses(element: HTMLElement, ...classes: string[]) {
-  classes.forEach((item) => element.classList.add(item))
-}
-
-function appendItem(parent: HTMLElement, child: HTMLElement) {
-  parent.append(child)
-}
-
-function storeList(name: string, index: number) {
-  const newList = createList(index)
-  storeItem(newList, name)
-}
+let listIndex = 0
 
 function addNewListItem(name: string, index: number) {
-  const newList = createListElement()
-  const newButton = createButtonElement(name)
-  assignClasses(newList, "mb-2", "hover:bg-slate-100")
-  assignClasses(newButton, "w-full", "p-2", "text-left")
-  appendItem(newList, newButton)
-  appendItem(lists, newList)
+  const newList = domUtils.createListElement(listIndex)
+  const newButton = domUtils.createButtonElement(name)
+  domUtils.assignClasses(newList, "mb-2", "hover:bg-slate-100")
+  domUtils.assignClasses(newButton, "w-full", "p-2", "text-left")
+  domUtils.appendItem(newList, newButton)
+  domUtils.appendItem(lists, newList)
   storeList(name, index)
-
   listIndex++
 }
-
-// List form
 
 const listName = document.querySelector("#form_list_name") as HTMLInputElement
 const createButton = document.querySelector("#btn_create_list") as HTMLButtonElement
@@ -61,39 +33,32 @@ listName.addEventListener("input", listNameInputLengthCheck)
 
 function listFormHandling(event: MouseEvent) {
   event.preventDefault()
-
-  if (
-    ["", null].includes(listName.value) ||
-    listName.value.length < 4 ||
-    listName.value.length > 20
-  ) {
+  if (["", null].includes(listName.value) || listName.value.length < 4) {
     listError.classList.remove("hidden")
     return
   }
-
   addNewListItem(listName.value, listIndex)
-
+  const taskFormHeading = document.querySelector("#task_form_heading") as HTMLParagraphElement
   taskFormHeading.textContent = `Add task to ${listName.value}`
-
-  closeDialog("list")
-  openDialog("task")
-
+  domUtils.closeDialog("list")
+  domUtils.openDialog("task")
   const resetButton = document.querySelector('#list_form button[type="reset"]') as HTMLButtonElement
   resetButton.click()
 }
 
-// Task Form
-const taskFormHeading = document.querySelector("#task_form_heading") as HTMLParagraphElement
-
-// Listeners
 const addListBtn = document.querySelector("#btn_add_list") as HTMLButtonElement
-addListBtn.addEventListener("click", () => openDialog("list"))
+addListBtn.addEventListener("click", () => domUtils.openDialog("list"))
 
 createButton.addEventListener("click", listFormHandling)
 
-function closeDialogListeners(id: string) {
+function closeBtnListeners(id: string) {
   const button = document.querySelector(`dialog#${id}_form button.btn_close`) as HTMLButtonElement
-  button.addEventListener("click", () => closeDialog(id))
+  button.addEventListener("click", () => domUtils.closeDialog(id))
 }
-closeDialogListeners("list")
-closeDialogListeners("task")
+closeBtnListeners("list")
+closeBtnListeners("task")
+
+// On page load stuff
+addNewListItem("House", listIndex)
+addNewListItem("Work", listIndex)
+addNewListItem("Family", listIndex)
