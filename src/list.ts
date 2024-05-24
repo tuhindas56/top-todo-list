@@ -1,7 +1,7 @@
-export function createList(index: number) {
+export function createList(name: string) {
   const tasks: {}[] = []
   return {
-    index,
+    name,
     tasks,
   }
 }
