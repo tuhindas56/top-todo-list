@@ -5,7 +5,6 @@ export type TaskObject = {
   description: string
   dueDate: string
   priority: Priorities
-  completed?: boolean
 }
 
 export default class Task {
@@ -13,14 +12,13 @@ export default class Task {
   description: string
   dueDate: string
   _priority: Priorities
-  completed: boolean
+  completed = false
 
-  constructor({ title, description, dueDate, priority, completed = false }: TaskObject) {
+  constructor({ title, description, dueDate, priority }: TaskObject) {
     this.title = title
     this.description = description
     this.dueDate = dueDate
     this._priority = priority
-    this.completed = completed
   }
   set priority(value: Priorities) {
     if ([0, 1, 2].includes(value)) {
