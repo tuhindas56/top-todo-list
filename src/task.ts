@@ -1,6 +1,6 @@
 type Priorities = 0 | 1 | 2
 
-type TaskObject = {
+export type TaskObject = {
   title: string
   description: string
   dueDate: string
