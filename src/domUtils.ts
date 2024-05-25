@@ -8,9 +8,9 @@ export function closeDialog(id: string) {
   dialog.close()
 }
 
-export function createListElement(index: number) {
+export function createListElement(name: string) {
   const newListElement = document.createElement("li") as HTMLLIElement
-  newListElement.dataset.index = `${index}`
+  newListElement.id = name
   return newListElement
 }
 
