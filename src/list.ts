@@ -1,10 +1,10 @@
-export function createList() {
+export function createList(id: string) {
   const tasks: {}[] = []
   return {
     tasks,
-    _type: "list",
+    id,
   }
 }
-export function storeTaskInList(task: {}, list: { tasks: {}[]; _type: string }) {
+export function storeTaskInList(task: {}, list: { tasks: {}[]; id: string }) {
   list.tasks.push(task)
 }
