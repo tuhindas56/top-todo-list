@@ -1,8 +1,16 @@
+const taskFormHeading = document.querySelector("#task_form_heading") as HTMLParagraphElement
+const listFormHeading = document.querySelector("#list_form_heading") as HTMLParagraphElement
+const createListButton = document.querySelector("#btn_create_list") as HTMLButtonElement
+const changeListNameBtn = document.querySelector("#btn_change_list_name") as HTMLButtonElement
 export function openDialog(id: string, currentList?: string) {
   const dialog = document.querySelector(`dialog#${id}_form`) as HTMLDialogElement
   if (id === "task" && currentList) {
-    const taskFormHeading = document.querySelector("#task_form_heading") as HTMLParagraphElement
     taskFormHeading.textContent = `Add task to ${currentList}`
+  }
+  if (id === "list" && currentList) {
+    listFormHeading.textContent = `Edit '${currentList}' list name`
+    createListButton.classList.add("hidden")
+    changeListNameBtn.classList.remove("hidden")
   }
   dialog.showModal()
 }
@@ -14,11 +22,15 @@ export function closeDialog(id: string) {
     taskFormHeading.textContent = `Add/Modify Task`
   }
   dialog.close()
+  listFormHeading.textContent = `Create a task list`
+
+  createListButton.classList.remove("hidden")
+  changeListNameBtn.classList.add("hidden")
 }
 
-export function createListElement(name: string) {
+export function createListElement(id: string) {
   const newListElement = document.createElement("li") as HTMLLIElement
-  newListElement.id = name
+  newListElement.id = `list_${id}`
   return newListElement
 }
 
@@ -60,7 +72,7 @@ export function createTaskElement(
       break
   }
   const newTask = document.createElement("li") as HTMLLIElement
-  newTask.id = `#task_${id}`
+  newTask.id = `task_${id}`
   newTask.innerHTML = `
   <div class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200"></div>
   <time class="mb-1 text-sm font-normal leading-none text-gray-400">${date}</time>
@@ -71,16 +83,16 @@ export function createTaskElement(
     ${priorityString}
   </span>
   <div class="flex items-center gap-6">
-    <button id="btn_edit_task" type="button" class="my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200">
+    <button data-id = ${id} type="button" class="btn_edit_task my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200 ">
      Edit
     </button>
-    <button id="btn_delete_task" type="button" class="my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:outline-none active:bg-gray-200">
+    <button data-id = ${id} type="button" class="btn_delete_task my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:outline-none active:bg-gray-200 ">
      Delete
      </button>
-    <label class="inline-flex cursor-pointer items-center">
-      <input type="checkbox" value="completed" class="peer sr-only" />
+    <label class="inline-flex cursor-pointer items-center" >
+      <input data-id = ${id} type="checkbox" value="completed" class="peer sr-only task_completion_checkbox" />
       <div class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full"></div>
-      <span class="ms-3 select-none text-sm font-medium text-gray-900">Complete</span>
+      <span class="ms-3 select-none text-sm font-medium text-gray-900 completion_span" >Not complete</span>
     </label>
   </div> 
   `
