@@ -33,6 +33,6 @@ export function retrieveListFromLS(name: string) {
   }
 }
 
-export function retrieveAllLists() {
+export function retrieveAllListsFromLS() {
   return lists
 }
