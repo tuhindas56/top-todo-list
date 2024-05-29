@@ -1,13 +1,18 @@
 import Task from "./task"
-export type List = ({ id: string; name: string } | Task)[]
-export function createList(id: string, name: string) {
+import generate from "./random"
+
+export type ListInfo = { id: string; name: string }
+export type List = [ListInfo, ...Task[]]
+
+export function createList(name: string) {
   return [
     {
-      id,
+      id: generate(),
       name,
     },
   ]
 }
+
 export function storeTaskInList(list: List, task: Task) {
   list.push(task)
 }
