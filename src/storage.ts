@@ -1,35 +1,38 @@
 import { List } from "./list"
 
+let lists: List[]
+let toParse = localStorage.getItem("lists")
+
+if (toParse) {
+  lists = JSON.parse(toParse)
+} else {
+  localStorage.setItem("lists", JSON.stringify([]))
+  toParse = localStorage.getItem("lists")!
+  lists = JSON.parse(toParse)
+}
+
 export function clearStorage() {
   localStorage.clear()
 }
 
 export function storeListInLS(list: List) {
-  const toParse = localStorage.getItem("lists")
-  if (toParse) {
-    const lists = JSON.parse(toParse)
-    lists.push(list)
-    localStorage.setItem("lists", JSON.stringify(lists))
-  }
-}
-
-export function retrieveListFromLS(name: string) {
-  const toParse = localStorage.getItem("lists")
-  if (toParse) {
-    const lists = JSON.parse(toParse)
-    for (let index = 0; index < lists.length; index++) {
-      if (lists[index][0].name === name) return lists[index]
-    }
-  }
+  lists.push(list)
+  localStorage.setItem("lists", JSON.stringify(lists))
 }
 
 export function deleteListFromLS(name: string) {
-  const toParse = localStorage.getItem("lists")
-  if (toParse) {
-    const lists = JSON.parse(toParse)
-    for (let index = 0; index < lists.length; index++) {
-      if (lists[index][0].name === name) lists.splice(index, 1)
-    }
-    localStorage.setItem("lists", JSON.stringify(lists))
+  for (let [index, list] of lists.entries()) {
+    if (list[0].name === name) lists.splice(index, 1)
   }
+  localStorage.setItem("lists", JSON.stringify(lists))
+}
+
+export function retrieveListFromLS(name: string) {
+  for (let list of lists) {
+    if (list[0].name === name) return list
+  }
+}
+
+export function retrieveAllLists() {
+  return lists
 }
