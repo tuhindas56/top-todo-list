@@ -1,4 +1,5 @@
 import Task from "./task"
+export type List = ({ id: string; name: string } | Task)[]
 export function createList(id: string, name: string) {
   return [
     {
@@ -7,6 +8,6 @@ export function createList(id: string, name: string) {
     },
   ]
 }
-export function storeTaskInList(list: ({ id: string; name: string } | Task)[], task: Task) {
+export function storeTaskInList(list: List, task: Task) {
   list.push(task)
 }
