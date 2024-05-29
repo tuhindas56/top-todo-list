@@ -1,7 +1,7 @@
 import Task from "./task"
 import generate from "./random"
 
-export type ListInfo = { id: string; name: string }
+type ListInfo = { id: string; name: string }
 export type List = [ListInfo, ...Task[]]
 
 export function createList(name: string) {
