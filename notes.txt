@@ -1,0 +1,2 @@
+
+* Add checks so same titles and list names are not allowed

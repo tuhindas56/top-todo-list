@@ -1,7 +1,12 @@
+import { retrieveAllListsFromLS } from "./localStorageUtils"
+
 const taskFormHeading = document.querySelector("#task_form_heading") as HTMLParagraphElement
 const listFormHeading = document.querySelector("#list_form_heading") as HTMLParagraphElement
 const createListButton = document.querySelector("#btn_create_list") as HTMLButtonElement
 const changeListNameBtn = document.querySelector("#btn_change_list_name") as HTMLButtonElement
+
+const listContainer = document.querySelector("#lists") as HTMLUListElement
+
 export function openDialog(id: string, currentList?: string) {
   const dialog = document.querySelector(`dialog#${id}_form`) as HTMLDialogElement
   if (id === "task" && currentList) {
@@ -34,8 +39,9 @@ export function createListElement(id: string) {
   return newListElement
 }
 
-export function createButtonElement(name: string) {
+export function createButtonElement(name: string, id: string) {
   const newButtonElement = document.createElement("button") as HTMLButtonElement
+  newButtonElement.dataset.id = id
   newButtonElement.textContent = name
   return newButtonElement
 }
@@ -97,4 +103,39 @@ export function createTaskElement(
   </div> 
   `
   return newTask
+}
+
+export function renderListsToDOM(name: string, id: string) {
+  if (!document.querySelector(`#list_${id}`)) {
+    const newList = createListElement(id)
+    const newButton = createButtonElement(name, id)
+    assignClasses(newList, "mb-2", "hover:bg-slate-100")
+    assignClasses(newButton, "w-full", "p-2", "text-left")
+    appendItem(newList, newButton)
+    appendItem(listContainer, newList)
+  } else {
+    return
+  }
+}
+
+export function renderExisting() {
+  const lists = retrieveAllListsFromLS()
+
+  for (let list of lists) {
+    renderListsToDOM(list[0].name, list[0].id)
+  }
+}
+function listFormHandling(event: MouseEvent) {
+  event.preventDefault()
+  if (["", null].includes(listName.value) || listName.value.length < 4) {
+    listError.classList.remove("hidden")
+    return
+  }
+  addNewListItem(listName.value)
+  currentList = listName.value
+
+  domUtils.closeDialog("list")
+  domUtils.openDialog("task", currentList)
+  const resetButton = document.querySelector('#list_form button[type="reset"]') as HTMLButtonElement
+  resetButton.click()
 }
