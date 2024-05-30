@@ -3,8 +3,6 @@ import { List } from "./list"
 let lists: List[]
 let toParse = localStorage.getItem("lists")
 
-export const listChanged = new CustomEvent("listChanged")
-
 if (toParse) {
   lists = JSON.parse(toParse)
 } else {
@@ -20,15 +18,15 @@ export function clearStorage() {
 export function storeListInLS(list: List) {
   lists.push(list)
   localStorage.setItem("lists", JSON.stringify(lists))
-  dispatchEvent(listChanged)
 }
 
-export function deleteListFromLS(name: string) {
+export function deleteListFromLS() {
+  const currentListID = JSON.parse(localStorage.getItem("currentList")!)
+
   for (let [index, list] of lists.entries()) {
-    if (list[0].name === name) lists.splice(index, 1)
+    if (list[0].id === currentListID) lists.splice(index, 1)
   }
   localStorage.setItem("lists", JSON.stringify(lists))
-  dispatchEvent(listChanged)
 }
 
 export function retrieveListFromLS(name: string) {
@@ -44,12 +42,11 @@ export function retrieveAllListsFromLS() {
 export function setCurrentList(id?: string) {
   if (!localStorage.getItem("currentList")) {
     localStorage.setItem("currentList", JSON.stringify(lists[0][0].id))
-    dispatchEvent(listChanged)
   } else {
     for (let list of lists) {
       if (list[0].id === id) {
         localStorage.setItem("currentList", JSON.stringify(list[0].id))
-        dispatchEvent(listChanged)
+        break
       }
     }
   }
@@ -60,6 +57,18 @@ export function getCurrentList() {
   for (let list of lists) {
     if (list[0].id === currentListID) {
       return list
+    }
+  }
+}
+
+export function editListNameInLS(name: string) {
+  const currentListID = JSON.parse(localStorage.getItem("currentList")!)
+
+  for (let list of lists) {
+    if (list[0].id === currentListID) {
+      list[0].name = name
+      localStorage.setItem("lists", JSON.stringify(lists))
+      break
     }
   }
 }
