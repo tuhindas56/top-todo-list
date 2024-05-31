@@ -134,14 +134,6 @@ export function openEditListDialog() {
   openDialog("list", getCurrentList()![0].name)
 }
 
-export function renderExisting() {
-  const lists = retrieveAllListsFromLS()
-
-  for (let list of lists) {
-    renderListsToDOM(list[0].name, list[0].id)
-  }
-}
-
 export function reRenderList() {
   const currentList = getCurrentList()!
   const listButtonToChange = document.querySelector(
@@ -169,4 +161,12 @@ export function deleteListBtnHandling() {
 
 export function delListFromDOM() {
   document.querySelector(`#list_${getCurrentList()![0].id}`)!.remove()
+}
+
+export function renderExisting() {
+  const lists = retrieveAllListsFromLS()
+
+  for (let list of lists) {
+    renderListsToDOM(list[0].name, list[0].id)
+  }
 }
