@@ -19,26 +19,35 @@
       referrerpolicy="no-referrer"
     />
   </head>
-  <body class="h-screen md:flex md:overflow-hidden">
+  <body class="fadeIn h-screen md:flex md:overflow-hidden">
     <!-- Sidebar -->
     <aside id="sidebar" class="overflow-x-auto md:max-h-screen md:min-w-60 md:border">
       <div class="flex items-center px-10 py-6">
-        <i class="fa-regular fa-circle-check mr-4 text-5xl text-blue-400"></i>
+        <i class="fa-regular fa-circle-check mr-4 text-5xl text-blue-500"></i>
         <span class="border-b text-xl">
           Todo
-          <span class="block border-b-2 border-b-blue-400 text-3xl">List</span>
+          <span class="block border-b-2 border-b-blue-500 text-3xl">List</span>
         </span>
       </div>
 
       <div class="flex flex-row-reverse flex-wrap justify-around md:block">
-        <!-- <ul id="task_categories" class="px-8 py-6 md:border-b">
+        <ul id="task_categories" class="px-8 py-6 md:border-b">
           <p class="mb-6 px-2 text-2xl">Tasks</p>
-
-          <li class="mb-2 bg-slate-100">
+          <li class="mb-2">
+            <button
+              id="btn_all"
+              class="w-full p-2 text-left transition duration-100 hover:bg-slate-100"
+              data-selected="true"
+            >
+              <i class="fa-solid fa-list-check mr-2 text-gray-600"></i>
+              All
+            </button>
+          </li>
+          <li class="mb-2">
             <button
               id="btn_today"
-              class="w-full p-2 text-left hover:bg-slate-100"
-              data-selected="true"
+              class="w-full p-2 text-left transition duration-100 hover:bg-slate-100"
+              data-selected="false"
             >
               <i class="fa-solid fa-star mr-1 text-yellow-400"></i>
               Today
@@ -47,7 +56,7 @@
           <li class="mb-2">
             <button
               id="btn_upcoming"
-              class="w-full p-2 text-left hover:bg-slate-100"
+              class="w-full p-2 text-left transition duration-100 hover:bg-slate-100"
               data-selected="false"
             >
               <i class="fa-regular fa-calendar-days mr-2 text-rose-400"></i>
@@ -57,24 +66,14 @@
           <li class="mb-2">
             <button
               id="btn_completed"
-              class="w-full p-2 text-left hover:bg-slate-100"
+              class="w-full p-2 text-left transition duration-100 hover:bg-slate-100"
               data-selected="false"
             >
               <i class="fa-solid fa-check mr-2 text-green-400"></i>
               Completed
             </button>
           </li>
-          <li class="mb-2">
-            <button
-              id="btn_all"
-              class="w-full p-2 text-left hover:bg-slate-100"
-              data-selected="false"
-            >
-              <i class="fa-solid fa-list-check mr-2 text-gray-600"></i>
-              All
-            </button>
-          </li>
-        </ul> -->
+        </ul>
 
         <div class="px-8 py-6">
           <p class="mb-6 px-2 text-2xl">Lists</p>
@@ -82,7 +81,7 @@
           <button
             id="btn_add_list"
             type="button"
-            class="w-max rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200 md:mx-8 md:mb-0"
+            class="w-max rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium transition duration-75 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200 md:mx-8 md:mb-0"
           >
             Add list
           </button>
@@ -95,7 +94,7 @@
           href="https://github.com/tuhindas56/top-todo-list"
           target="_blank"
           rel="noopener noreferrer"
-          class="und text-blue-400"
+          class="und text-blue-500"
         >
           <span class="block">Tuhin Das</span>
         </a>
@@ -104,48 +103,41 @@
 
     <!-- Main content -->
     <main class="relative flex-1 overflow-x-auto">
-      <div class="flex items-end bg-white px-6 pt-14">
-        <button class="resetdb mr-4 rounded-md border px-4 font-medium">ResetDb</button>
-        <span id="list_title" class="mr-4 text-6xl font-medium"></span>
-        <div class="flex w-max flex-col">
-          <button
-            id="btn_edit_list_name"
-            class="text-lg"
-            data-tooltip-target="tooltip-edit"
-            data-tooltip-placement="right"
-          >
-            <i class="fa-solid fa-pencil text-md text-slate-500 hover:text-blue-400"></i>
-          </button>
-
-          <div
-            id="tooltip-edit"
-            role="tooltip"
-            class="tooltip invisible absolute z-10 inline-block rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 opacity-0 shadow-sm"
-          >
-            Edit list
-            <div class="tooltip-arrow" data-popper-arrow></div>
+      <div class="flex flex-col justify-between gap-4 bg-white p-8">
+        <div class="flex items-end">
+          <span id="list_title" class="mr-4 border-b-2 border-blue-500 text-6xl font-medium"></span>
+          <div>
+            <div class="flex w-max flex-col">
+              <button id="btn_edit_list_name" data-tooltip-target="tooltip-edit" data-tooltip-placement="right">
+                <i class="fa-solid fa-pencil text-md text-slate-500 transition duration-200 hover:text-blue-400"></i>
+              </button>
+            </div>
+            <div
+              id="tooltip-edit"
+              role="tooltip"
+              class="tooltip invisible absolute z-10 inline-block rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 opacity-0 shadow-sm transition duration-300"
+            >
+              Edit list
+              <div class="tooltip-arrow transition" data-popper-arrow></div>
+            </div>
+            <button
+              id="btn_del_list"
+              data-modal-target="popup-modal"
+              data-modal-toggle="popup-modal"
+              data-tooltip-target="tooltip-delete"
+              data-tooltip-placement="right"
+            >
+              <i class="fa-solid fa-trash text-lg text-slate-500 transition duration-200 hover:text-red-500"></i>
+            </button>
+            <div
+              id="tooltip-delete"
+              role="tooltip"
+              class="tooltip invisible absolute z-10 inline-block rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 opacity-0 shadow-sm transition duration-300"
+            >
+              Delete list
+              <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
           </div>
-
-          <button
-            id="btn_del_list"
-            data-modal-target="popup-modal"
-            data-modal-toggle="popup-modal"
-            data-tooltip-target="tooltip-delete"
-            data-tooltip-placement="right"
-            class="text-red-500"
-          >
-            <i class="fa-solid fa-trash text-lg text-slate-500 hover:text-red-500"></i>
-          </button>
-
-          <div
-            id="tooltip-delete"
-            role="tooltip"
-            class="tooltip invisible absolute z-10 inline-block rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 opacity-0 shadow-sm"
-          >
-            Delete list
-            <div class="tooltip-arrow" data-popper-arrow></div>
-          </div>
-
           <div
             id="popup-modal"
             tabindex="-1"
@@ -191,12 +183,12 @@
                       d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                     />
                   </svg>
-                  <p id="del_list_name_head" class="mb-5 text-lg font-normal text-gray-500"></p>
+                  <p id="del_list_name_head" class="text-lg font-normal text-gray-500"></p>
                   <button
                     id="deletion_modal_agree_btn"
                     data-modal-hide="popup-modal"
                     type="button"
-                    class="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 disabled:bg-slate-500"
+                    class="mt-5 inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 disabled:bg-slate-500"
                   >
                     Yes, I'm sure
                   </button>
@@ -204,7 +196,7 @@
                     id="deletion_modal_cancel_btn"
                     data-modal-hide="popup-modal"
                     type="button"
-                    class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100"
+                    class="ms-3 mt-5 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100"
                   >
                     No, cancel
                   </button>
@@ -213,29 +205,30 @@
             </div>
           </div>
         </div>
+        <div>
+          <span class="text-2xl font-medium">Category</span>
+          <span id="current_category" class="block text-xl">All</span>
+        </div>
       </div>
-      <button
-        id="btn_add_task"
-        type="button"
-        class="m-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200"
-      >
-        Add task
-      </button>
 
       <hr />
 
       <!-- Tasklist -->
-      <div class="min-w-80 p-6">
+      <div class="min-w-80 px-8 py-6">
+        <button
+          id="btn_add_task"
+          type="button"
+          class="mb-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium transition duration-75 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200"
+        >
+          Add task
+        </button>
         <ol class="relative border-s border-gray-200" id="tasks"></ol>
       </div>
     </main>
 
     <!-- Form dialogs -->
     <!-- List dialog -->
-    <dialog
-      id="list_form"
-      class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm"
-    >
+    <dialog id="list_form" class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
       <form class="min-w-96 p-8">
         <div class="mb-4 flex items-center justify-between">
           <p class="text-2xl font-medium" id="list_form_heading">Create a Task List</p>
@@ -244,13 +237,7 @@
             class="btn_close inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
             data-modal-hide="popup-modal"
           >
-            <svg
-              class="h-3 w-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
+            <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
               <path
                 stroke="currentColor"
                 stroke-linecap="round"
@@ -277,17 +264,15 @@
         <p class="mb-4 hidden text-sm text-red-500" id="list_error">
           List name must be between 4 and 20 characters long
         </p>
-        <p class="-mt-2 mb-6 text-xs">
-          <span class="mr-1 text-lg text-red-500">*</span>Required Fields
-        </p>
+        <p class="-mt-2 mb-6 text-xs"><span class="mr-1 text-lg text-red-500">*</span>Required Fields</p>
         <button
-          class="mr-2 mt-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          class="mb-2 mr-2 mt-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto md:mb-0"
           id="btn_create_list"
         >
           Create
         </button>
         <button
-          class="mr-2 mt-2 hidden w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          class="mb-2 mr-2 mt-2 hidden w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto md:mb-0"
           id="btn_change_list_name"
         >
           Change
@@ -302,10 +287,7 @@
     </dialog>
 
     <!-- Task form dialog -->
-    <dialog
-      id="task_form"
-      class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm"
-    >
+    <dialog id="task_form" class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
       <form class="min-w-96 p-8">
         <div class="mb-6 flex items-center justify-between">
           <p id="task_form_heading" class="text-2xl font-medium">Add Task</p>
@@ -314,13 +296,7 @@
             class="btn_close inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
             data-modal-hide="popup-modal"
           >
-            <svg
-              class="h-3 w-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
+            <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
               <path
                 stroke="currentColor"
                 stroke-linecap="round"
@@ -349,9 +325,7 @@
           Title must be between 4 and 20 characters!
         </p>
 
-        <label for="task_desc" class="mb-2 block text-sm font-medium text-gray-900">
-          Description
-        </label>
+        <label for="task_desc" class="mb-2 block text-sm font-medium text-gray-900"> Description </label>
         <textarea
           id="task_desc"
           class="mb-6 block w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
@@ -373,13 +347,7 @@
           <legend class="mb-2 font-medium">Priority</legend>
           <div class="grid w-[20rem] grid-cols-3 rounded-md bg-slate-100">
             <div>
-              <input
-                type="radio"
-                name="task_priority"
-                id="task_priority_low"
-                value="2"
-                class="peer hidden"
-              />
+              <input type="radio" name="task_priority" id="task_priority_low" value="2" class="peer hidden" />
               <label
                 for="task_priority_low"
                 class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-slate-500 peer-checked:font-bold peer-checked:text-white"
@@ -404,13 +372,7 @@
               </label>
             </div>
             <div>
-              <input
-                type="radio"
-                name="task_priority"
-                id="task_priority_high"
-                value="0"
-                class="peer hidden"
-              />
+              <input type="radio" name="task_priority" id="task_priority_high" value="0" class="peer hidden" />
               <label
                 for="task_priority_high"
                 class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-red-500 peer-checked:font-bold peer-checked:text-white"
@@ -421,9 +383,7 @@
           </div>
         </fieldset>
 
-        <p class="-mt-2 mb-6 text-xs">
-          <span class="mr-1 text-lg text-red-500">*</span>Required Fields
-        </p>
+        <p class="-mt-2 mb-6 text-xs"><span class="mr-1 text-lg text-red-500">*</span>Required Fields</p>
         <p class="-mt-2 mb-6 hidden text-sm" id="task_error">
           Please fill in the required (<span class="mr-1 text-lg text-red-500">*</span>) fields!
         </p>
@@ -431,7 +391,7 @@
           A task with the entered title already exists!
         </p>
         <button
-          class="mr-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          class="mb-2 mr-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto md:mb-0"
           id="task_btn"
         >
           Create
@@ -446,10 +406,7 @@
     </dialog>
 
     <!-- Edit task dialog -->
-    <dialog
-      id="edit_form"
-      class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm"
-    >
+    <dialog id="edit_form" class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
       <form class="min-w-96 p-8" action="#">
         <div class="mb-6 flex items-center justify-between">
           <p id="edit_form_heading" class="text-2xl font-medium">Modify Task</p>
@@ -458,13 +415,7 @@
             class="btn_close inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
             data-modal-hide="popup-modal"
           >
-            <svg
-              class="h-3 w-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
+            <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
               <path
                 stroke="currentColor"
                 stroke-linecap="round"
@@ -492,9 +443,7 @@
           Title must be between 4 and 20 characters!
         </p>
 
-        <label for="edit_desc" class="mb-2 block text-sm font-medium text-gray-900">
-          Description
-        </label>
+        <label for="edit_desc" class="mb-2 block text-sm font-medium text-gray-900"> Description </label>
         <textarea
           id="edit_desc"
           class="mb-6 block w-full resize-none rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
@@ -516,13 +465,7 @@
           <legend class="mb-2 font-medium">Priority</legend>
           <div class="grid w-[20rem] grid-cols-3 rounded-md bg-slate-100">
             <div>
-              <input
-                type="radio"
-                name="edit_priority"
-                id="edit_priority_low"
-                value="2"
-                class="peer hidden"
-              />
+              <input type="radio" name="edit_priority" id="edit_priority_low" value="2" class="peer hidden" />
               <label
                 for="edit_priority_low"
                 class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-slate-500 peer-checked:font-bold peer-checked:text-white"
@@ -547,13 +490,7 @@
               </label>
             </div>
             <div>
-              <input
-                type="radio"
-                name="edit_priority"
-                id="edit_priority_high"
-                value="0"
-                class="peer hidden"
-              />
+              <input type="radio" name="edit_priority" id="edit_priority_high" value="0" class="peer hidden" />
               <label
                 for="edit_priority_high"
                 class="block cursor-pointer select-none rounded-md p-2 text-center peer-checked:bg-red-500 peer-checked:font-bold peer-checked:text-white"
@@ -564,9 +501,7 @@
           </div>
         </fieldset>
 
-        <p class="-mt-2 mb-6 text-xs">
-          <span class="mr-1 text-lg text-red-500">*</span>Required Fields
-        </p>
+        <p class="-mt-2 mb-6 text-xs"><span class="mr-1 text-lg text-red-500">*</span>Required Fields</p>
         <p class="-mt-2 mb-6 hidden text-sm" id="edit_error">
           Please fill in the required (<span class="mr-1 text-lg text-red-500">*</span>) fields!
         </p>
