@@ -128,3 +128,18 @@ export function deleteTaskFromLS(id: string) {
     }
   }
 }
+
+export function toggleTaskCompletion(id: string) {
+  const currentListID = getCurrentList()![0].id
+  for (let list of lists) {
+    if (list[0].id === currentListID) {
+      for (let task of list) {
+        if (task.id === id) {
+          ;(task as Task).toggleCompletion()
+          localStorage.setItem("lists", JSON.stringify(lists))
+          break
+        }
+      }
+    }
+  }
+}
