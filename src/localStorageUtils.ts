@@ -1,5 +1,6 @@
 import Task from "./task"
 import { List } from "./list"
+import { format, isAfter, isBefore } from "date-fns"
 
 let lists: List[]
 let toParse = localStorage.getItem("lists")
@@ -29,7 +30,6 @@ export function storeListInLS(newList: List) {
 
 export function deleteListFromLS() {
   const currentListID = JSON.parse(localStorage.getItem("currentList")!)
-
   for (let [index, list] of lists.entries()) {
     if (list[0].id === currentListID) lists.splice(index, 1)
   }
@@ -70,7 +70,6 @@ export function getCurrentList() {
 
 export function editListNameInLS(name: string) {
   const currentListID = JSON.parse(localStorage.getItem("currentList")!)
-
   for (let list of lists) {
     if (list[0].id === currentListID) {
       list[0].name = name
@@ -80,15 +79,37 @@ export function editListNameInLS(name: string) {
   }
 }
 
-export function retrieveAllTasksFromCurrentList() {
+function sortTasks(tasks: Task[], sortType?: string) {
+  let currentDate = format(new Date(), "dd MMMM yyyy")
+  let sortedTasks
+  if (sortType === "today") {
+    sortedTasks = tasks.filter((task) => task.dueDate === currentDate)
+  } else if (sortType === "upcoming") {
+    sortedTasks = tasks.filter((task) => isAfter(task.dueDate, currentDate))
+  } else if (sortType === "completed") {
+    sortedTasks = tasks.filter((task) => task.completed)
+  } else {
+    sortedTasks = tasks.sort((a, b) => {
+      if (isBefore(b.dueDate, a.dueDate)) {
+        return 1
+      } else {
+        return -1
+      }
+    })
+  }
+  return sortedTasks
+}
+
+export function retrieveAllTasksFromCurrentList(sortType?: string) {
   const currentListID = getCurrentList()![0].id
   for (let list of lists) {
     if (list[0].id === currentListID) {
-      const tasks = list.slice(1) as Task[]
-      for (let task of tasks) {
+      let tasks = list.slice(1) as Task[]
+      let sortedTasks = sortTasks(tasks, sortType) as Task[]
+      for (let task of sortedTasks) {
         Object.setPrototypeOf(task, Task.prototype)
       }
-      return tasks
+      return sortedTasks as Task[]
     }
   }
 }
