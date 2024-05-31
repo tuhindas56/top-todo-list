@@ -1,4 +1,4 @@
-import { nanoid } from "nanoid"
+import { customAlphabet } from "nanoid"
 export default () => {
-  return nanoid()
+  return customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-")()
 }
