@@ -104,6 +104,25 @@
     <!-- Main content -->
     <main class="relative flex-1 overflow-x-auto">
       <div class="flex flex-col justify-between gap-4 bg-white p-8">
+        <div class="flex w-max flex-col">
+          <button
+            id="toggle_sidebar"
+            class="w-max rounded-md px-2 text-xl transition duration-200 hover:bg-slate-200"
+            data-tooltip-target="tooltip-sidebar"
+            data-tooltip-placement="right"
+          >
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+        <div
+          id="tooltip-sidebar"
+          role="tooltip"
+          class="tooltip invisible absolute z-10 inline-block rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 opacity-0 shadow-sm transition duration-300"
+        >
+          Toggle sidebar
+          <div class="tooltip-arrow transition" data-popper-arrow></div>
+        </div>
+
         <div class="flex items-end">
           <span id="list_title" class="mr-4 border-b-2 border-blue-500 text-6xl font-medium"></span>
           <div>
@@ -228,7 +247,7 @@
 
     <!-- Form dialogs -->
     <!-- List dialog -->
-    <dialog id="list_form" class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
+    <dialog id="list_form" class="fadeIn overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
       <form class="min-w-96 p-8">
         <div class="mb-4 flex items-center justify-between">
           <p class="text-2xl font-medium" id="list_form_heading">Create a Task List</p>
@@ -287,7 +306,7 @@
     </dialog>
 
     <!-- Task form dialog -->
-    <dialog id="task_form" class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
+    <dialog id="task_form" class="fadeIn overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
       <form class="min-w-96 p-8">
         <div class="mb-6 flex items-center justify-between">
           <p id="task_form_heading" class="text-2xl font-medium">Add Task</p>
@@ -406,8 +425,8 @@
     </dialog>
 
     <!-- Edit task dialog -->
-    <dialog id="edit_form" class="overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
-      <form class="min-w-96 p-8" action="#">
+    <dialog id="edit_form" class="fadeIn overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
+      <form class="min-w-96 p-8">
         <div class="mb-6 flex items-center justify-between">
           <p id="edit_form_heading" class="text-2xl font-medium">Modify Task</p>
           <button
