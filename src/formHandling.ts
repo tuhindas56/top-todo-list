@@ -1,11 +1,8 @@
-import { addNewList, addNewTask } from "./main"
-import { openDialog, closeDialog, reRenderList } from "./domUtils"
-import {
-  getCurrentList,
-  editListNameInLS,
-  retrieveAllTasksFromCurrentList,
-} from "./localStorageUtils"
 import { Priorities } from "./task"
+import { getCurrentList, editListNameInLS, retrieveAllTasksFromCurrentList } from "./localStorageUtils"
+import { closeDialog, openDialog } from "./dialogUtils"
+import { addNewList, addNewTask } from "./main"
+import { reRenderList } from "./domRenderingUtils"
 
 // List Form
 const listName = document.querySelector("#form_list_name") as HTMLInputElement
@@ -44,9 +41,7 @@ export function editListFormHandling(event: MouseEvent) {
 const taskTitle = document.querySelector(`#task_title`) as HTMLInputElement
 const taskDescription = document.querySelector(`#task_desc`) as HTMLTextAreaElement
 const taskDue = document.querySelector(`#task_due`) as HTMLInputElement
-const taskPriorities = document.querySelectorAll(
-  `input[name="task_priority"]`,
-) as NodeListOf<HTMLInputElement>
+const taskPriorities = document.querySelectorAll(`input[name="task_priority"]`) as NodeListOf<HTMLInputElement>
 const taskTitleError = document.querySelector(`#task_title_error`) as HTMLParagraphElement
 const taskFormError = document.querySelector(`#task_error`) as HTMLParagraphElement
 const taskExistsError = document.querySelector("#task_exists_error") as HTMLParagraphElement
