@@ -1,7 +1,12 @@
 import { closeDialog, openDialog, openEditListDialog } from "./dialogUtils"
-import { delTaskFromDOM, fadeAnimation, renderExisting } from "./domRenderingUtils"
+import { delTaskFromDOM, fadeAnimation, reRenderTask, renderExisting } from "./domRenderingUtils"
 import { editListFormHandling, editTaskFormHandling, listFormHandling, taskFormHandling } from "./formHandling"
-import { deleteTaskFromLS, getCurrentList, retrieveAllTasksFromCurrentList } from "./localStorageUtils"
+import {
+  deleteTaskFromLS,
+  getCurrentList,
+  retrieveAllTasksFromCurrentList,
+  toggleTaskCompletion,
+} from "./localStorageUtils"
 import { deleteList } from "./main"
 import { format } from "date-fns"
 
@@ -116,7 +121,9 @@ function handleTaskContainerClicks(event: MouseEvent) {
       delTaskFromDOM(id)
       break
     case "complete":
-      console.log(`${id} completed`)
+      toggleTaskCompletion(id)
+      reRenderTask(id)
+      break
   }
 }
 
