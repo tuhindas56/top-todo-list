@@ -1,10 +1,11 @@
-import Task from "./task"
+import Task, { Priorities } from "./task"
 import {
   clearStorage,
   deleteListFromLS,
   editListNameInLS,
   getCurrentList,
   retrieveAllListsFromLS,
+  retrieveAllTasksFromCurrentList,
   retrieveListFromLS,
   setCurrentList,
   storeListInLS,
@@ -67,8 +68,6 @@ export function addNewList(name: string) {
     storeListInLS(newList)
     renderListsToDOM(name, newList[0].id)
     setCurrentList(newList[0].id)
-
-    renderExisting()
   }
 }
 
@@ -77,24 +76,41 @@ export function deleteList() {
   deleteListFromLS()
 }
 
-// localStorage.removeItem(currentList)
-// localStorage.setItem(newName, JSON.stringify(listToChange))
-// currentList = listName.value
-// listTitle.innerText = listName.value
+export function addNewTask(
+  title: string,
+  description: string,
+  dueDate: string,
+  priority: Priorities,
+) {
+  const tasks = retrieveAllTasksFromCurrentList()!
 
-// const listButton = document.querySelector(
-//   `#lists #list_${listToChange.id} button`,
-// ) as HTMLButtonElement
-// listButton.innerText = listName.value
+  if (tasks.length !== 0) {
+    if (tasks.some((task: Task) => task.title === title)) return
+  }
+  const newTask = new Task({
+    title: title,
+    description: description,
+    dueDate: dueDate,
+    priority: priority,
+  })
+  const currentList = getCurrentList()!
+  storeTaskInList(currentList, newTask)
+  storeListInLS(currentList)
+}
 
 document.addEventListener(
   "DOMContentLoaded",
   () => {
     if (!JSON.parse(localStorage.getItem("visited")!)) {
       addNewList("Demo")
-      addNewList("Ayaya")
     }
+    const taskDue = document.querySelector(`#task_due`) as HTMLInputElement
+    taskDue.setAttribute("min", format(new Date(), "yyyy-MM-dd"))
 
+    addNewTask("test task", "testing fn", `${new Date()}`, 1)
+    addNewTask("second task", "fun", `${addDays(new Date(), 2)}`, 0)
+
+    console.table(retrieveAllTasksFromCurrentList())
     localStorage.setItem("visited", JSON.stringify(true))
     setCurrentList()
     setupListeners()
@@ -102,12 +118,6 @@ document.addEventListener(
   },
   { once: true },
 )
-
-document.addEventListener("listChanged", () => {
-  listContainer.innerHTML = ""
-  taskContainer.innerHTML = ""
-  renderExisting()
-})
 
 console.log(
   "%c If found, please report bugs here: https://github.com/tuhindas56/top-todo-list/issues",
