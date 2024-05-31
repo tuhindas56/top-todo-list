@@ -1,3 +1,4 @@
+import Task from "./task"
 import { List } from "./list"
 
 let lists: List[]
@@ -15,8 +16,14 @@ export function clearStorage() {
   localStorage.clear()
 }
 
-export function storeListInLS(list: List) {
-  lists.push(list)
+export function storeListInLS(newList: List) {
+  const toSplice = lists.findIndex((value) => newList[0].id === value[0].id)
+  if (toSplice === -1) {
+    lists.push(newList)
+  } else {
+    lists.splice(toSplice, 1)
+    lists.push(newList)
+  }
   localStorage.setItem("lists", JSON.stringify(lists))
 }
 
@@ -69,6 +76,15 @@ export function editListNameInLS(name: string) {
       list[0].name = name
       localStorage.setItem("lists", JSON.stringify(lists))
       break
+    }
+  }
+}
+
+export function retrieveAllTasksFromCurrentList() {
+  const currentListID = getCurrentList()![0].id
+  for (let list of lists) {
+    if (list[0].id === currentListID) {
+      return list.slice(1) as Task[]
     }
   }
 }
