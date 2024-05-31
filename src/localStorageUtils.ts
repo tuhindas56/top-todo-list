@@ -84,7 +84,11 @@ export function retrieveAllTasksFromCurrentList() {
   const currentListID = getCurrentList()![0].id
   for (let list of lists) {
     if (list[0].id === currentListID) {
-      return list.slice(1) as Task[]
+      const tasks = list.slice(1) as Task[]
+      for (let task of tasks) {
+        Object.setPrototypeOf(task, Task.prototype)
+      }
+      return tasks
     }
   }
 }
