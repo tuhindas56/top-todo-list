@@ -1,20 +1,19 @@
+// INVOKE RESET BUTTONS WHEN DIALOG CLOSE BUTTON CLICKED!!!! DONT DO THIS FOR EDIT FORM DIALOG!!
+
 import Task, { Priorities } from "./task"
 import {
   clearStorage,
   deleteListFromLS,
-  editListNameInLS,
   getCurrentList,
-  retrieveAllListsFromLS,
   retrieveAllTasksFromCurrentList,
   retrieveListFromLS,
   setCurrentList,
   storeListInLS,
 } from "./localStorageUtils"
 import { createList, storeTaskInList } from "./list"
-import { delListFromDOM, reRenderList, renderExisting, renderListsToDOM } from "./domUtils"
+import { delListFromDOM, renderExisting, renderListsToDOM, renderTasksToDOM } from "./domUtils"
 import setupListeners from "./listeners"
-import { addDays, format, isBefore } from "date-fns"
-
+import { addDays, format } from "date-fns"
 import "./style.css"
 import "flowbite"
 
@@ -39,6 +38,8 @@ const listMutation = new MutationObserver(() => {
   if (currentList) {
     listTitle.innerText = currentList[0].name
   }
+  taskContainer.innerHTML = ""
+  renderExisting()
 })
 listMutation.observe(listContainer, { childList: true })
 
@@ -46,20 +47,16 @@ function switchList(event: MouseEvent) {
   const target = event.target as HTMLButtonElement
   const targetID = target.dataset.id
 
-  // Prevent spamming
+  // Prevent spam clicks
   if (target.innerText === listTitle.innerText) return
 
   setCurrentList(targetID)
   const currentList = getCurrentList()
   if (currentList) {
     listTitle.innerText = currentList[0].name
+    taskContainer.innerHTML = ""
     renderExisting()
   }
-
-  // lists.innerHTML = ""
-  // const tasks = document.querySelector("#tasks") as HTMLOListElement
-  // tasks.innerHTML = ""
-  // currentList = targetName
 }
 
 export function addNewList(name: string) {
@@ -82,8 +79,7 @@ export function addNewTask(
   dueDate: string,
   priority: Priorities,
 ) {
-  const tasks = retrieveAllTasksFromCurrentList()!
-
+  let tasks = retrieveAllTasksFromCurrentList()!
   if (tasks.length !== 0) {
     if (tasks.some((task: Task) => task.title === title)) return
   }
@@ -96,6 +92,10 @@ export function addNewTask(
   const currentList = getCurrentList()!
   storeTaskInList(currentList, newTask)
   storeListInLS(currentList)
+  tasks = retrieveAllTasksFromCurrentList()!
+  let date = newTask.dueDate
+  let id = newTask.id
+  renderTasksToDOM(title, description, date, priority, id)
 }
 
 document.addEventListener(
@@ -103,12 +103,11 @@ document.addEventListener(
   () => {
     if (!JSON.parse(localStorage.getItem("visited")!)) {
       addNewList("Demo")
+      addNewTask("test task", "testing fn", `${new Date()}`, 1)
+      addNewTask("second task", "fun", `${addDays(new Date(), 2)}`, 0)
     }
     const taskDue = document.querySelector(`#task_due`) as HTMLInputElement
     taskDue.setAttribute("min", format(new Date(), "yyyy-MM-dd"))
-
-    addNewTask("test task", "testing fn", `${new Date()}`, 1)
-    addNewTask("second task", "fun", `${addDays(new Date(), 2)}`, 0)
 
     console.table(retrieveAllTasksFromCurrentList())
     localStorage.setItem("visited", JSON.stringify(true))
