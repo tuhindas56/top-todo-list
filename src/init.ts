@@ -13,7 +13,9 @@ document.addEventListener(
       addNewTask("test task", "testing fn", `${new Date()}`, 1)
     }
     const taskDue = document.querySelector(`#task_due`) as HTMLInputElement
+    const editDue = document.querySelector("#edit_due") as HTMLInputElement
     taskDue.setAttribute("min", format(new Date(), "yyyy-MM-dd"))
+    editDue.setAttribute("min", format(new Date(), "yyyy-MM-dd"))
 
     console.table(retrieveAllTasksFromCurrentList())
     localStorage.setItem("visited", JSON.stringify(true))
