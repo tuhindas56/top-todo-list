@@ -1,4 +1,9 @@
-import { getCurrentList, retrieveAllListsFromLS } from "./localStorageUtils"
+import {
+  getCurrentList,
+  retrieveAllListsFromLS,
+  retrieveAllTasksFromCurrentList,
+} from "./localStorageUtils"
+import Task from "./task"
 
 // Cache DOM elements
 const taskFormHeading = document.querySelector("#task_form_heading") as HTMLParagraphElement
@@ -163,10 +168,31 @@ export function delListFromDOM() {
   document.querySelector(`#list_${getCurrentList()![0].id}`)!.remove()
 }
 
+export function renderTasksToDOM(
+  title: string,
+  description: string,
+  dueDate: string,
+  priority: number,
+  id: string,
+) {
+  if (!document.querySelector(`#tasks #task${id}`)) {
+    const newTask = createTaskElement(title, description, dueDate, priority, id)
+    newTask.className = "mb-10 ms-4"
+    const tasks = document.querySelector("#tasks") as HTMLOListElement
+    appendItem(tasks, newTask)
+  } else {
+    return
+  }
+}
+
 export function renderExisting() {
   const lists = retrieveAllListsFromLS()
-
+  const tasks = retrieveAllTasksFromCurrentList()!
   for (let list of lists) {
     renderListsToDOM(list[0].name, list[0].id)
+  }
+  for (let task of tasks) {
+    Object.setPrototypeOf(task, Task.prototype)
+    renderTasksToDOM(task.title, task.description, task.dueDate, task.priority, task.id)
   }
 }
