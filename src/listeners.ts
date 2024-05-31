@@ -1,12 +1,15 @@
 import { closeDialog, openDialog, openEditListDialog } from "./dialogUtils"
 import { fadeAnimation, renderExisting } from "./domRenderingUtils"
-import { editListFormHandling, listFormHandling, taskFormHandling } from "./formHandling"
-import { getCurrentList } from "./localStorageUtils"
+import { editListFormHandling, editTaskFormHandling, listFormHandling, taskFormHandling } from "./formHandling"
+import { getCurrentList, retrieveAllTasksFromCurrentList } from "./localStorageUtils"
 import { deleteList } from "./main"
+import { format } from "date-fns"
 
+const sidebar = document.querySelector("#sidebar") as HTMLElement
 const taskCategories = document.querySelector("#task_categories") as HTMLUListElement
 const addListBtn = document.querySelector("#btn_add_list") as HTMLButtonElement
 const createListButton = document.querySelector("#btn_create_list") as HTMLButtonElement
+const toggleSidebarButton = document.querySelector("#toggle_sidebar") as HTMLButtonElement
 const editListBtn = document.querySelector("#btn_edit_list_name") as HTMLButtonElement
 const changeListNameBtn = document.querySelector("#btn_change_list_name") as HTMLButtonElement
 const delListBtn = document.querySelector("#btn_del_list") as HTMLButtonElement
@@ -17,11 +20,17 @@ const addTaskBtn = document.querySelector("#btn_add_task") as HTMLButtonElement
 const createTaskButton = document.querySelector("#task_btn") as HTMLButtonElement
 const taskContainer = document.querySelector("#tasks") as HTMLOListElement
 const currentCategory = document.querySelector("#current_category") as HTMLSpanElement
+const taskEditBtn = document.querySelector("#edit_btn") as HTMLButtonElement
+const editTitle = document.querySelector("#edit_title") as HTMLInputElement
+const editDesc = document.querySelector("#edit_desc") as HTMLTextAreaElement
+const editDueDate = document.querySelector("#edit_due") as HTMLInputElement
+const editPriorities = document.querySelectorAll('input[name="edit_priority"]') as NodeListOf<HTMLInputElement>
 
 export default () => {
   taskCategories.addEventListener("click", handleTaskCategoryClick)
   addListBtn.addEventListener("click", () => openDialog("list"))
   createListButton.addEventListener("click", listFormHandling)
+  toggleSidebarButton.addEventListener("click", toggleSidebar)
   editListBtn.addEventListener("click", openEditListDialog)
   changeListNameBtn.addEventListener("click", editListFormHandling)
   delListBtn.addEventListener("click", deleteListBtnHandling)
@@ -29,6 +38,7 @@ export default () => {
   addTaskBtn.addEventListener("click", () => openDialog("task", getCurrentList()![0].name))
   createTaskButton.addEventListener("click", (event) => taskFormHandling(event))
   taskContainer.addEventListener("click", handleTaskContainerClicks)
+  taskEditBtn.addEventListener("click", editTaskFormHandling)
 
   function closeBtnListeners(id: string) {
     const button = document.querySelector(`dialog#${id}_form button.btn_close`) as HTMLButtonElement
@@ -72,6 +82,11 @@ function handleTaskCategoryClick(event: MouseEvent) {
   }
 }
 
+function toggleSidebar() {
+  sidebar.classList.toggle("hidden")
+  fadeAnimation(sidebar)
+}
+
 export function deleteListBtnHandling() {
   const listNodes = document.querySelectorAll("#lists li") as NodeListOf<HTMLButtonElement>
   if (listNodes.length > 1) {
@@ -91,10 +106,11 @@ export function deleteListBtnHandling() {
 function handleTaskContainerClicks(event: MouseEvent) {
   const targetID = (event.target as HTMLButtonElement | HTMLInputElement).id
   let [, name, id] = targetID.split("_")
-
+  console.log(id)
   switch (name) {
     case "edit":
       openDialog("edit")
+      prepareEditForm(id)
       break
     case "del":
       console.log(`${id} deleted`)
@@ -102,4 +118,29 @@ function handleTaskContainerClicks(event: MouseEvent) {
     case "complete":
       console.log(`${id} completed`)
   }
+}
+
+function prepareEditForm(id: string) {
+  const tasks = retrieveAllTasksFromCurrentList()!
+  let taskTitle, taskDesc, taskDue, taskPriority
+  for (let task of tasks) {
+    if (task.id === id) {
+      console.log(task)
+      taskTitle = task.title
+      taskDesc = task.description
+      taskDue = task.dueDate
+      taskPriority = task.priority
+    }
+  }
+  editTitle.value = taskTitle!
+  editDesc.value = taskDesc!
+  editDueDate.value = format(taskDue!, "yyyy-MM-dd")!
+  for (let priority of editPriorities) {
+    if (+priority.value === taskPriority) {
+      priority.setAttribute("checked", "")
+    } else {
+      priority.removeAttribute("checked")
+    }
+  }
+  taskEditBtn.dataset.id = id
 }
