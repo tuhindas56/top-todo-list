@@ -1,12 +1,14 @@
-type Priorities = 0 | 1 | 2
+export type Priorities = 0 | 1 | 2
 
 type TaskObject = {
   title: string
   description: string
   dueDate: string
   priority: Priorities
-  id: string
 }
+
+import generate from "./random"
+import { format } from "date-fns"
 
 export default class Task {
   title: string
@@ -16,12 +18,12 @@ export default class Task {
   completed = false
   _id: string
 
-  constructor({ title, description, dueDate, priority, id }: TaskObject) {
+  constructor({ title, description, dueDate, priority }: TaskObject) {
     this.title = title
     this.description = description
-    this.dueDate = dueDate
+    this.dueDate = format(dueDate, "dd MMMM yyyy")
     this._priority = priority
-    this._id = id
+    this._id = generate()
   }
   set priority(value: Priorities) {
     if ([0, 1, 2].includes(value)) {
