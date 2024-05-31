@@ -85,6 +85,7 @@ export function taskFormHandling(event: MouseEvent) {
   resetButton.click()
 }
 
+// Edit Form
 export function editTaskFormHandling(event: MouseEvent) {
   event.preventDefault()
   let taskID = (event.target as HTMLButtonElement).dataset.id
