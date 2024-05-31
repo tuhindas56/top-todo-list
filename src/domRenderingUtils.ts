@@ -27,7 +27,7 @@ export function reRenderList() {
 export function delListFromDOM() {
   const toRemove = document.querySelector(`#list_${getCurrentList()![0].id}`) as HTMLLIElement
   toRemove.classList.add("fadeOut")
-  setTimeout(() => toRemove.remove(), 500)
+  setTimeout(() => toRemove.remove(), 300)
 }
 
 export function renderTasksToDOM(title: string, description: string, dueDate: string, priority: number, id: string) {
