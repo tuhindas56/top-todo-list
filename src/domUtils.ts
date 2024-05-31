@@ -95,7 +95,6 @@ export function createTaskElement(
   }
   const newTask = document.createElement("li") as HTMLLIElement
   newTask.id = `task_${id}`
-  newTask.dataset.date = `${date}`
   newTask.innerHTML = `
   <div class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200"></div>
   <time class="mb-1 text-sm font-normal leading-none text-gray-400">${date}</time>
@@ -193,6 +192,8 @@ export function renderExisting() {
   }
   for (let task of tasks) {
     Object.setPrototypeOf(task, Task.prototype)
-    renderTasksToDOM(task.title, task.description, task.dueDate, task.priority, task.id)
+    if (!task.completed) {
+      renderTasksToDOM(task.title, task.description, task.dueDate, task.priority, task.id)
+    }
   }
 }
