@@ -2,7 +2,7 @@ import { Priorities } from "./task"
 import { getCurrentList, editListNameInLS, retrieveAllTasksFromCurrentList } from "./localStorageUtils"
 import { closeDialog, openDialog } from "./dialogUtils"
 import { addNewList, addNewTask } from "./main"
-import { reRenderList } from "./domRenderingUtils"
+import { delTaskFromDOM, reRenderList } from "./domRenderingUtils"
 
 // List Form
 const listName = document.querySelector("#form_list_name") as HTMLInputElement
@@ -48,6 +48,7 @@ const taskExistsError = document.querySelector("#task_exists_error") as HTMLPara
 
 export function taskFormHandling(event: MouseEvent) {
   event.preventDefault()
+  const resetButton = document.querySelector('#task_form button[type="reset"]') as HTMLButtonElement
 
   if (["", null].includes(taskTitle.value) || ["", null].includes(taskDue.value)) {
     taskFormError.classList.remove("hidden")
@@ -81,6 +82,48 @@ export function taskFormHandling(event: MouseEvent) {
   }
   addNewTask(taskTitle.value, taskDescription.value, taskDue.value, taskPriority)
   closeDialog("task")
-  const resetButton = document.querySelector('#task_form button[type="reset"]') as HTMLButtonElement
   resetButton.click()
+}
+
+export function editTaskFormHandling(event: MouseEvent) {
+  event.preventDefault()
+  let taskID = (event.target as HTMLButtonElement).dataset.id
+
+  const editTitle = document.querySelector("#edit_title") as HTMLInputElement
+  const editDesc = document.querySelector("#edit_desc") as HTMLTextAreaElement
+  const editDue = document.querySelector("#edit_due") as HTMLInputElement
+  const editPriorities = document.querySelectorAll('input[name="edit_priority"]') as NodeListOf<HTMLInputElement>
+  const editTitleError = document.querySelector(`#edit_title_error`) as HTMLParagraphElement
+  const editFormError = document.querySelector(`#edit_error`) as HTMLParagraphElement
+
+  if (["", null].includes(editTitle.value) || ["", null].includes(editDue.value)) {
+    editFormError.classList.remove("hidden")
+    setTimeout(() => editFormError.classList.add("hidden"), 3500)
+    return
+  } else if (editTitle.value.length < 4) {
+    editTitleError.classList.remove("hidden")
+    setTimeout(() => editTitleError.classList.add("hidden"), 3500)
+    return
+  } else {
+    editTitleError.classList.add("hidden")
+    editFormError.classList.add("hidden")
+  }
+
+  let editPriority
+  for (let priority of editPriorities) {
+    if (priority.checked) {
+      editPriority = +priority.value as Priorities
+    }
+  }
+
+  const currentList = getCurrentList()!
+  for (let [index, task] of currentList.entries()) {
+    if (task.id === taskID) {
+      currentList.splice(index, 1)
+      delTaskFromDOM(taskID)
+      addNewTask(editTitle.value, editDesc.value, editDue.value, editPriority!)
+      break
+    }
+  }
+  closeDialog("edit")
 }
