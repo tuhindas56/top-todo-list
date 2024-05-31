@@ -51,6 +51,7 @@ export function renderExisting(sortType?: string) {
   for (let task of tasks) {
     Object.setPrototypeOf(task, Task.prototype)
     renderTasksToDOM(task.title, task.description, task.dueDate, task.priority, task.id)
+    reRenderTask(task.id)
   }
 }
 
@@ -69,4 +70,20 @@ export function fadeAnimation(element: HTMLElement) {
     },
     { once: true },
   )
+}
+
+export function reRenderTask(id: string) {
+  const checkbox = document.querySelector(`#checkbox_complete_${id}`) as HTMLInputElement
+  const span = document.querySelector(`#task_${id} .completion_span`) as HTMLSpanElement
+  const tasks = retrieveAllTasksFromCurrentList()!
+  for (let task of tasks) {
+    if (task.id === id && task.completed) {
+      checkbox.checked = true
+      span.innerText = "Completed"
+      break
+    } else {
+      checkbox.checked = false
+      span.innerText = "Not complete"
+    }
+  }
 }
