@@ -1,7 +1,7 @@
 import { closeDialog, openDialog, openEditListDialog } from "./dialogUtils"
-import { fadeAnimation, renderExisting } from "./domRenderingUtils"
+import { delTaskFromDOM, fadeAnimation, renderExisting } from "./domRenderingUtils"
 import { editListFormHandling, editTaskFormHandling, listFormHandling, taskFormHandling } from "./formHandling"
-import { getCurrentList, retrieveAllTasksFromCurrentList } from "./localStorageUtils"
+import { deleteTaskFromLS, getCurrentList, retrieveAllTasksFromCurrentList } from "./localStorageUtils"
 import { deleteList } from "./main"
 import { format } from "date-fns"
 
@@ -106,14 +106,14 @@ export function deleteListBtnHandling() {
 function handleTaskContainerClicks(event: MouseEvent) {
   const targetID = (event.target as HTMLButtonElement | HTMLInputElement).id
   let [, name, id] = targetID.split("_")
-  console.log(id)
   switch (name) {
     case "edit":
       openDialog("edit")
       prepareEditForm(id)
       break
     case "del":
-      console.log(`${id} deleted`)
+      deleteTaskFromLS(id)
+      delTaskFromDOM(id)
       break
     case "complete":
       console.log(`${id} completed`)
@@ -125,7 +125,6 @@ function prepareEditForm(id: string) {
   let taskTitle, taskDesc, taskDue, taskPriority
   for (let task of tasks) {
     if (task.id === id) {
-      console.log(task)
       taskTitle = task.title
       taskDesc = task.description
       taskDue = task.dueDate

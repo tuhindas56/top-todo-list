@@ -55,8 +55,9 @@ export function renderExisting(sortType?: string) {
 }
 
 export function delTaskFromDOM(id: string) {
-  const toDelete = document.querySelector(`#task_${id}`) as HTMLLIElement
-  toDelete.remove()
+  const toRemove = document.querySelector(`#task_${id}`) as HTMLLIElement
+  toRemove.classList.add("fadeOut")
+  setTimeout(() => toRemove.remove(), 300)
 }
 
 export function fadeAnimation(element: HTMLElement) {
