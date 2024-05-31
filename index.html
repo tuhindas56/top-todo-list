@@ -274,7 +274,7 @@
           minlength="4"
           maxlength="20"
         />
-        <p class="mb-4 hidden text-xs text-red-500" id="list_error">
+        <p class="mb-4 hidden text-sm text-red-500" id="list_error">
           List name must be between 4 and 20 characters long
         </p>
         <p class="-mt-2 mb-6 text-xs">
@@ -342,10 +342,10 @@
           class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           placeholder="Project Presentation"
           minlength="4"
-          maxlength="20"
+          maxlength="30"
           required
         />
-        <p class="-mt-2 mb-6 hidden text-xs text-red-500" id="task_title_error">
+        <p class="-mt-2 mb-6 hidden text-sm text-red-500" id="task_title_error">
           Title must be between 4 and 20 characters!
         </p>
 
@@ -368,7 +368,6 @@
           class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
           required
         />
-        <p class="-mt-2 mb-6 text-sm text-red-500" id="task_date_error"></p>
 
         <fieldset class="mb-4">
           <legend class="mb-2 font-medium">Priority</legend>
@@ -428,11 +427,20 @@
         <p class="-mt-2 mb-6 hidden text-sm" id="task_error">
           Please fill in the required (<span class="mr-1 text-lg text-red-500">*</span>) fields!
         </p>
+        <p class="-mt-2 mb-6 hidden text-sm text-red-500" id="task_exists_error">
+          A task with the entered title already exists!
+        </p>
         <button
-          class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+          class="mr-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
           id="task_btn"
         >
           Create
+        </button>
+        <button
+          class="w-full rounded-lg bg-slate-400 px-5 py-2.5 text-center text-sm font-medium text-white transition hover:bg-slate-500 focus:outline-none focus:ring-4 focus:ring-slate-300 sm:w-auto"
+          type="reset"
+        >
+          Reset
         </button>
       </form>
     </dialog>
@@ -480,7 +488,7 @@
           maxlength="20"
           required
         />
-        <p class="-mt-2 mb-6 hidden text-xs text-red-500" id="edit_title_error">
+        <p class="-mt-2 mb-6 hidden text-sm text-red-500" id="edit_title_error">
           Title must be between 4 and 20 characters!
         </p>
 
