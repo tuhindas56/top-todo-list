@@ -113,3 +113,18 @@ export function retrieveAllTasksFromCurrentList(sortType?: string) {
     }
   }
 }
+
+export function deleteTaskFromLS(id: string) {
+  const currentListID = getCurrentList()![0].id
+  for (let list of lists) {
+    if (list[0].id === currentListID) {
+      for (let [index, task] of list.entries()) {
+        if (task.id === id) {
+          list.splice(index, 1)
+          localStorage.setItem("lists", JSON.stringify(lists))
+          break
+        }
+      }
+    }
+  }
+}
