@@ -1,7 +1,6 @@
 import Task from "./task"
 import { getCurrentList, retrieveAllListsFromLS, retrieveAllTasksFromCurrentList } from "./localStorageUtils"
 import { appendItem, assignClasses, createButtonElement, createListElement, createTaskElement } from "./domElementUtils"
-
 const listContainer = document.querySelector("#lists") as HTMLUListElement
 
 export function renderListsToDOM(name: string, id: string) {
@@ -30,9 +29,16 @@ export function delListFromDOM() {
   setTimeout(() => toRemove.remove(), 300)
 }
 
-export function renderTasksToDOM(title: string, description: string, dueDate: string, priority: number, id: string) {
+export function renderTasksToDOM(
+  title: string,
+  description: string,
+  dueDate: string,
+  priority: number,
+  id: string,
+  completed?: boolean,
+) {
   if (!document.querySelector(`#tasks #task${id}`)) {
-    const newTask = createTaskElement(title, description, dueDate, priority, id)
+    const newTask = createTaskElement(title, description, dueDate, priority, id, completed)
     const tasks = document.querySelector("#tasks") as HTMLOListElement
     appendItem(tasks, newTask)
   } else {
@@ -50,8 +56,7 @@ export function renderExisting(sortType?: string) {
   }
   for (let task of tasks) {
     Object.setPrototypeOf(task, Task.prototype)
-    renderTasksToDOM(task.title, task.description, task.dueDate, task.priority, task.id)
-    reRenderTask(task.id)
+    renderTasksToDOM(task.title, task.description, task.dueDate, task.priority, task.id, task.completed)
   }
 }
 
@@ -73,17 +78,25 @@ export function fadeAnimation(element: HTMLElement) {
 }
 
 export function reRenderTask(id: string) {
+  const taskInDOM = document.querySelector(`#task_${id}`) as HTMLLIElement
   const checkbox = document.querySelector(`#checkbox_complete_${id}`) as HTMLInputElement
   const span = document.querySelector(`#task_${id} .completion_span`) as HTMLSpanElement
+  const editBtn = document.querySelector(`#btn_edit_${id}`) as HTMLButtonElement
   const tasks = retrieveAllTasksFromCurrentList()!
   for (let task of tasks) {
     if (task.id === id && task.completed) {
       checkbox.checked = true
       span.innerText = "Completed"
+      taskInDOM.style.opacity = "0.5"
+      editBtn.disabled = true
+      editBtn.classList.remove("hover:bg-gray-100", "hover:text-blue-700", "active:bg-gray-200")
       break
     } else {
       checkbox.checked = false
-      span.innerText = "Not complete"
+      span.innerText = "Not completed"
+      taskInDOM.style.opacity = "1"
+      editBtn.disabled = false
+      editBtn.classList.add("hover:bg-gray-100", "hover:text-blue-700", "active:bg-gray-200")
     }
   }
 }
