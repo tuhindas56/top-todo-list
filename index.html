@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="rubik-regular text-base sm:text-lg">
+<html lang="en" class="rubik-regular text-sm sm:text-base md:text-lg">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <div class="flex flex-row-reverse flex-wrap justify-around md:block">
+      <div class="flex flex-row-reverse flex-wrap justify-end md:block">
         <ul id="task_categories" class="px-8 py-6 md:border-b">
           <p class="mb-6 px-2 text-2xl">Tasks</p>
           <li class="mb-2">
@@ -140,12 +140,14 @@
           <div class="tooltip-arrow transition" data-popper-arrow></div>
         </div>
 
-        <div class="flex items-end">
-          <span id="list_title" class="mr-4 border-b-2 border-blue-500 text-6xl font-medium"></span>
-          <div>
-            <div class="flex w-max flex-col">
+        <div class="md:flex md:items-center">
+          <span id="list_title" class="mr-4 border-b-2 border-blue-500 py-1 text-6xl font-medium md:py-2"></span>
+          <div class="mt-6 flex md:mt-0 md:block">
+            <div class="mr-5 flex w-max flex-col md:mb-1">
               <button id="btn_edit_list_name" data-tooltip-target="tooltip-edit" data-tooltip-placement="right">
-                <i class="fa-solid fa-pencil text-md text-slate-500 transition duration-200 hover:text-blue-400"></i>
+                <i
+                  class="fa-solid fa-pencil text-2xl text-slate-500 transition duration-200 hover:text-blue-400 md:text-xl"
+                ></i>
               </button>
             </div>
             <div
@@ -163,7 +165,9 @@
               data-tooltip-target="tooltip-delete"
               data-tooltip-placement="right"
             >
-              <i class="fa-solid fa-trash text-lg text-slate-500 transition duration-200 hover:text-red-500"></i>
+              <i
+                class="fa-solid fa-trash text-2xl text-slate-500 transition duration-200 hover:text-red-500 md:text-xl"
+              ></i>
             </button>
             <div
               id="tooltip-delete"
@@ -245,6 +249,16 @@
           <span class="text-2xl font-medium">Category</span>
           <span id="current_category" class="block text-xl">All</span>
         </div>
+
+        <div class="select-none rounded-md bg-gray-100 px-4 py-2">
+          <i class="fa-solid fa-triangle-exclamation mb-2"></i>
+          <p class="text-sm">
+            If the page breaks, please run
+            <code class="select-text rounded-md bg-gray-200 p-[0.2rem] text-xs">localStorage.clear()</code>
+            in the browser console on PC, or <span class="font-medium">clear your phone's browsing history</span> and
+            revisit.
+          </p>
+        </div>
       </div>
 
       <hr />
@@ -254,10 +268,11 @@
         <button
           id="btn_add_task"
           type="button"
-          class="mb-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium transition duration-75 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200"
+          class="mb-6 mr-2 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium transition duration-75 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200"
         >
           Add task
         </button>
+
         <ol class="relative border-s border-gray-200" id="tasks"></ol>
       </div>
     </main>
@@ -265,7 +280,7 @@
     <!-- Form dialogs -->
     <!-- List dialog -->
     <dialog id="list_form" class="fadeIn overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
-      <form class="min-w-96 p-8">
+      <form class="min-w-80 p-8 md:min-w-96">
         <div class="mb-4 flex items-center justify-between">
           <p class="text-2xl font-medium" id="list_form_heading">Create a Task List</p>
           <button
@@ -324,7 +339,7 @@
 
     <!-- Task form dialog -->
     <dialog id="task_form" class="fadeIn overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
-      <form class="min-w-96 p-8">
+      <form class="min-w-80 p-8 md:min-w-96">
         <div class="mb-6 flex items-center justify-between">
           <p id="task_form_heading" class="text-2xl font-medium">Add Task</p>
           <button
@@ -443,7 +458,7 @@
 
     <!-- Edit task dialog -->
     <dialog id="edit_form" class="fadeIn overflow-hidden rounded-xl drop-shadow-2xl backdrop:backdrop-blur-sm">
-      <form class="min-w-96 p-8">
+      <form class="min-w-80 p-8 md:min-w-96">
         <div class="mb-6 flex items-center justify-between">
           <p id="edit_form_heading" class="text-2xl font-medium">Modify Task</p>
           <button
@@ -554,7 +569,7 @@
       href="https://github.com/tuhindas56/top-todo-list"
       target="_blank"
       rel="noopener noreferre"
-      class="fa-brands fa-github text-blue-500 transition duration-200 hover:text-black"
+      class="fa-brands fa-github opacity-50 transition duration-200 hover:opacity-100"
       data-tooltip-target="github-tooltip"
       data-tooltip-placement="left"
     >

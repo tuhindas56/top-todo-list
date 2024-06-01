@@ -37,8 +37,14 @@
 
 .fa-github {
   position: fixed;
-  bottom: 30px;
+  bottom: 92%;
   right: 30px;
   font-size: 2.5rem;
   text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .fa-github {
+    bottom: 30px;
+  }
 }
