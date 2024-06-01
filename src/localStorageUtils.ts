@@ -82,21 +82,36 @@ export function editListNameInLS(name: string) {
 function sortTasks(tasks: Task[], sortType?: string) {
   let currentDate = format(new Date(), "dd MMMM yyyy")
   let sortedTasks
-  if (sortType === "today") {
-    sortedTasks = tasks.filter((task) => task.dueDate === currentDate)
-  } else if (sortType === "upcoming") {
-    sortedTasks = tasks.filter((task) => isAfter(task.dueDate, currentDate))
-  } else if (sortType === "completed") {
-    sortedTasks = tasks.filter((task) => task.completed)
-  } else {
-    sortedTasks = tasks.sort((a, b) => {
-      if (isBefore(b.dueDate, a.dueDate)) {
-        return 1
-      } else {
+  switch (sortType) {
+    case "today":
+      sortedTasks = tasks.filter((task) => task.dueDate === currentDate && !task.completed)
+      break
+    case "upcoming":
+      sortedTasks = tasks.filter(
+        (task) => (task.dueDate === currentDate || isAfter(task.dueDate, currentDate)) && !task.completed,
+      )
+      break
+    case "completed":
+      sortedTasks = tasks.filter((task) => task.completed)
+      break
+    default:
+      sortedTasks = tasks
+      break
+  }
+  sortedTasks.sort((a, b) => {
+    if (a.dueDate === b.dueDate) {
+      const titleA = a.title.toUpperCase()
+      const titleB = b.title.toUpperCase()
+      if (titleA < titleB) {
         return -1
       }
-    })
-  }
+      if (titleA > titleB) {
+        return 1
+      }
+      return 0
+    }
+    return isBefore(b.dueDate, a.dueDate) ? 1 : -1
+  })
   return sortedTasks
 }
 
