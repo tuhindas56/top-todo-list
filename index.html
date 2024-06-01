@@ -23,11 +23,33 @@
     <!-- Sidebar -->
     <aside id="sidebar" class="overflow-x-auto md:max-h-screen md:min-w-60 md:border">
       <div class="flex items-center px-10 py-6">
-        <i class="fa-regular fa-circle-check mr-4 text-5xl text-blue-500"></i>
+        <i
+          class="fa-regular fa-circle-check mr-4 text-5xl text-blue-500"
+          data-popover-target="popover-default"
+          data-popover-placement="bottom"
+        ></i>
         <span class="border-b text-xl">
           Todo
           <span class="block border-b-2 border-b-blue-500 text-3xl">List</span>
         </span>
+        <div
+          data-popover
+          id="popover-default"
+          role="tooltip"
+          class="invisible absolute z-10 inline-block w-64 rounded-lg border border-gray-200 bg-white text-sm text-gray-500 opacity-0 shadow-sm transition-opacity duration-300"
+        >
+          <div class="rounded-t-lg border-b border-gray-200 bg-gray-100 px-3 py-2">
+            <button
+              class="resetdb text- mr-4 w-full rounded-md border bg-white px-4 font-medium hover:bg-gray-100 hover:text-blue-700"
+            >
+              Reset
+            </button>
+          </div>
+          <div class="px-3 py-2">
+            <p class="text-center">Recreates sample list and tasks</p>
+          </div>
+          <div data-popper-arrow></div>
+        </div>
       </div>
 
       <div class="flex flex-row-reverse flex-wrap justify-around md:block">
@@ -90,12 +112,7 @@
 
       <p class="border-b px-10 pb-6 text-right text-sm md:border-0 md:p-10 md:text-left">
         built by
-        <a
-          href="https://github.com/tuhindas56/top-todo-list"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="und text-blue-500"
-        >
+        <a href="https://github.com/tuhindas56/" target="_blank" rel="noopener noreferrer" class="und text-blue-500">
           <span class="block">Tuhin Das</span>
         </a>
       </p>
@@ -532,6 +549,24 @@
         </button>
       </form>
     </dialog>
+
+    <a
+      href="https://github.com/tuhindas56/top-todo-list"
+      target="_blank"
+      rel="noopener noreferre"
+      class="fa-brands fa-github text-blue-500 transition duration-200 hover:text-black"
+      data-tooltip-target="github-tooltip"
+      data-tooltip-placement="left"
+    >
+    </a>
+    <div
+      id="github-tooltip"
+      role="tooltip"
+      class="tooltip invisible absolute z-10 inline-block rounded-lg px-3 py-2 text-sm font-medium opacity-0 shadow-sm transition duration-200"
+    >
+      Source Code
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
