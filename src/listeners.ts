@@ -2,6 +2,7 @@ import { closeDialog, openDialog, openEditListDialog } from "./dialogUtils"
 import { delTaskFromDOM, fadeAnimation, reRenderTask, renderExisting } from "./domRenderingUtils"
 import { editListFormHandling, editTaskFormHandling, listFormHandling, taskFormHandling } from "./formHandling"
 import {
+  clearStorage,
   deleteTaskFromLS,
   getCurrentList,
   retrieveAllTasksFromCurrentList,
@@ -10,6 +11,7 @@ import {
 import { deleteList } from "./main"
 import { format } from "date-fns"
 
+const resetPage = document.querySelector(".resetdb") as HTMLButtonElement
 const sidebar = document.querySelector("#sidebar") as HTMLElement
 const taskCategories = document.querySelector("#task_categories") as HTMLUListElement
 const addListBtn = document.querySelector("#btn_add_list") as HTMLButtonElement
@@ -30,20 +32,34 @@ const editTitle = document.querySelector("#edit_title") as HTMLInputElement
 const editDesc = document.querySelector("#edit_desc") as HTMLTextAreaElement
 const editDueDate = document.querySelector("#edit_due") as HTMLInputElement
 const editPriorities = document.querySelectorAll('input[name="edit_priority"]') as NodeListOf<HTMLInputElement>
+const allCategoryButton = document.querySelector("#btn_all") as HTMLButtonElement
 
 export default () => {
+  resetPage.addEventListener("click", () => {
+    clearStorage()
+    location.reload()
+  })
   taskCategories.addEventListener("click", handleTaskCategoryClick)
   addListBtn.addEventListener("click", () => openDialog("list"))
-  createListButton.addEventListener("click", listFormHandling)
+  createListButton.addEventListener("click", (event) => {
+    listFormHandling(event)
+    allCategoryButton.click()
+  })
   toggleSidebarButton.addEventListener("click", toggleSidebar)
   editListBtn.addEventListener("click", openEditListDialog)
   changeListNameBtn.addEventListener("click", editListFormHandling)
   delListBtn.addEventListener("click", deleteListBtnHandling)
   deletionModalAgreeBtn.addEventListener("click", deleteList)
   addTaskBtn.addEventListener("click", () => openDialog("task", getCurrentList()![0].name))
-  createTaskButton.addEventListener("click", (event) => taskFormHandling(event))
+  createTaskButton.addEventListener("click", (event) => {
+    taskFormHandling(event)
+    allCategoryButton.click()
+  })
   taskContainer.addEventListener("click", handleTaskContainerClicks)
-  taskEditBtn.addEventListener("click", editTaskFormHandling)
+  taskEditBtn.addEventListener("click", (event) => {
+    editTaskFormHandling(event)
+    allCategoryButton.click()
+  })
 
   function closeBtnListeners(id: string) {
     const button = document.querySelector(`dialog#${id}_form button.btn_close`) as HTMLButtonElement
@@ -113,6 +129,7 @@ function handleTaskContainerClicks(event: MouseEvent) {
   let [, name, id] = targetID.split("_")
   switch (name) {
     case "edit":
+      if ((document.querySelector(`#btn_edit_${id}`) as HTMLButtonElement).disabled) return
       openDialog("edit")
       prepareEditForm(id)
       break
