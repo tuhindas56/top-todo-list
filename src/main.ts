@@ -28,7 +28,13 @@ export function deleteList() {
   deleteListFromLS()
 }
 
-export function addNewTask(title: string, description: string, dueDate: string, priority: Priorities) {
+export function addNewTask(
+  title: string,
+  description: string,
+  dueDate: string,
+  priority: Priorities,
+  completed?: boolean,
+) {
   let tasks = retrieveAllTasksFromCurrentList()!
   if (tasks.length !== 0) {
     if (tasks.some((task: Task) => task.title === title)) return
@@ -38,12 +44,12 @@ export function addNewTask(title: string, description: string, dueDate: string, 
     description: description,
     dueDate: dueDate,
     priority: priority,
+    completed: completed,
   })
   const currentList = getCurrentList()!
   storeTaskInList(currentList, newTask)
   storeListInLS(currentList)
-  tasks = retrieveAllTasksFromCurrentList()!
   let date = newTask.dueDate
   let id = newTask.id
-  renderTasksToDOM(title, description, date, priority, id)
+  renderTasksToDOM(title, description, date, priority, id, completed)
 }
