@@ -33,8 +33,8 @@ document.addEventListener(
 
     localStorage.setItem("visited", JSON.stringify(true))
     setCurrentList()
-    setupListeners()
     renderExisting()
+    setupListeners()
   },
   { once: true },
 )
