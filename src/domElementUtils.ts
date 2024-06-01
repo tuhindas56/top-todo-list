@@ -19,7 +19,15 @@ export function appendItem(parent: HTMLElement, child: HTMLElement) {
   parent.append(child)
 }
 
-export function createTaskElement(title: string, description: string, date: string, priority: number, id: string) {
+export function createTaskElement(
+  title: string,
+  description: string,
+  date: string,
+  priority: number,
+  id: string,
+  completed?: boolean,
+) {
+  const newTask = document.createElement("li") as HTMLLIElement
   let priorityString: string = ""
   let color: string = ""
   switch (priority) {
@@ -36,7 +44,23 @@ export function createTaskElement(title: string, description: string, date: stri
       color = "text-slate-500"
       break
   }
-  const newTask = document.createElement("li") as HTMLLIElement
+  let completionStatus
+  let checkStatus
+  let disableStatus
+  let classes
+  if (completed) {
+    completionStatus = "Completed"
+    checkStatus = "checked"
+    disableStatus = "disabled"
+    newTask.style.opacity = "0.5"
+    classes = undefined
+  } else {
+    completionStatus = "Not completed"
+    checkStatus = undefined
+    disableStatus = undefined
+    newTask.style.opacity = "1"
+    classes = "hover:bg-gray-100 hover:text-blue-700 active:bg-gray-200"
+  }
   newTask.id = `task_${id}`
   newTask.className = "mb-10 ms-4 fadeIn"
   newTask.innerHTML = `
@@ -49,16 +73,16 @@ export function createTaskElement(title: string, description: string, date: stri
       ${priorityString}
     </span>
     <div class="flex items-center gap-6">
-      <button id="btn_edit_${id}" type="button" class="transition duration-75 my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none active:bg-gray-200 ">
+      <button id="btn_edit_${id}" type="button" ${disableStatus} class="${classes} transition duration-75 my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium focus:z-10 focus:outline-none" >
        Edit
       </button>
       <button id="btn_del_${id}" type="button" class="transition duration-75 my-6 rounded-lg border border-gray-200 bg-white px-4 py-1 text-sm font-medium hover:bg-gray-100 hover:text-red-700 focus:z-10 focus:outline-none active:bg-gray-200 ">
        Delete
        </button>
       <label class="inline-flex cursor-pointer items-center" >
-        <input id="checkbox_complete_${id}" type="checkbox" value="completed" class="peer sr-only" />
+        <input id="checkbox_complete_${id}" type="checkbox" value="completed" class="peer sr-only" ${checkStatus} />
         <div class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full"></div>
-        <span class="ms-3 select-none text-sm font-medium text-gray-900 completion_span" >Not complete</span>
+        <span class="ms-3 select-none text-sm font-medium text-gray-900 completion_span" >${completionStatus}</span>
       </label>
     </div> 
     <hr />
