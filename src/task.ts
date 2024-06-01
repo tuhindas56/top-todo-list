@@ -5,6 +5,7 @@ type TaskObject = {
   description: string
   dueDate: string
   priority: Priorities
+  completed?: boolean
 }
 
 import generate from "./random"
@@ -15,15 +16,16 @@ export default class Task {
   description: string
   dueDate: string
   _priority: Priorities
-  completed = false
+  completed?: boolean
   _id: string
 
-  constructor({ title, description, dueDate, priority }: TaskObject) {
+  constructor({ title, description, dueDate, priority, completed }: TaskObject) {
     this.title = title
     this.description = description
     this.dueDate = format(dueDate, "dd MMMM yyyy")
     this._priority = priority
     this._id = generate()
+    this.completed = completed || false
   }
   set priority(value: Priorities) {
     if ([0, 1, 2].includes(value)) {
