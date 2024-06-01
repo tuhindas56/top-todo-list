@@ -1,8 +1,9 @@
 import { getCurrentList, setCurrentList } from "./localStorageUtils"
-import { renderExisting } from "./domRenderingUtils"
+import { fadeAnimation, renderExisting } from "./domRenderingUtils"
 
 const listContainer = document.querySelector("#lists") as HTMLUListElement
 const listTitle = document.querySelector("#list_title") as HTMLParagraphElement
+const currentCategory = document.querySelector("#current_category") as HTMLSpanElement
 
 const listMutation = new MutationObserver(() => {
   const buttons = document.querySelectorAll("#lists button") as NodeListOf<HTMLButtonElement>
@@ -30,6 +31,8 @@ function switchList(event: MouseEvent) {
   const currentList = getCurrentList()
   if (currentList) {
     listTitle.innerText = currentList[0].name
+    fadeAnimation(currentCategory)
+    currentCategory.innerText = "All"
     renderExisting()
   }
 }
