@@ -1,6 +1,6 @@
 # top-todo-list
 
-A todo list app built as part of <a href="https://www.theodinproject.com/lessons/node-path-javascript-todo-list">The Odin Project curriculum</a>.
+A todo list app built as part of [The Odin Project curriculum](https://www.theodinproject.com/lessons/node-path-javascript-todo-list)
 
 ## Setup
 
